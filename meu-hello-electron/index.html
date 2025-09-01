@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Olá Mundo :: Electron</title>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self'; 
+        script-src 'self' 'unsafe-inline'; 
+        style-src 'self' 'unsafe-inline'; 
+        img-src 'self' data:; 
+        font-src 'self'; 
+        connect-src 'self';
+      "
+    />
+  </head>
+  <body>
+    <h1>Olá Mundo!!! ✨</h1>
+    <p id="mensagemBacana"></p>
+    <p>Estou utilizando o <strong>Electron <span id="electron-version"></span></strong></p>
+
+    <script>
+      const helloMessage = window.api.hello();
+      document.getElementById("mensagemBacana").innerText = helloMessage;
+
+      const electronVersion = window.api.electronVersion();
+      document.getElementById("electron-version").innerText = electronVersion;
+    </script>
+  </body>
+</html>

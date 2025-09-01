@@ -1,0 +1,49 @@
+{
+  "name": "meu-hello-electron",
+  "version": "1.0.0",
+  "description": "Meu primeiro app Electron",
+  "main": "main.js",
+  "author": {
+    "name": "Alan Ryan da Silva Domingues",
+    "email": "alanryan619@gmail.com"
+  },
+  "homepage": "https://github.com/0nF1REy",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder -w -l"
+  },
+  "devDependencies": {
+    "electron": "^35.0.3",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.seuprojeto.helloelectron",
+    "productName": "Meu Hello Electron",
+    "asar": true,
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*"
+    ],
+    "extraResources": ["node_modules"],
+    "mac": {
+      "category": "public.app-category.DEVELOPMENT_TOOLS"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64", "ia32"]
+        }
+      ],
+      "icon": "assets/icon.png"
+    },
+    "linux": {
+      "category": "Development",
+      "target": ["deb", "rpm", "AppImage"],
+      "maintainer": "Alan Ryan da Silva Domingues <alanryan619@gmail.com>",
+      "icon": "assets/icon.png"
+    }
+  }
+}

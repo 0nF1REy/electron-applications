@@ -1,0 +1,61 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Diagnostic reports (crash reports)
+crash-reports
+
+# Packages
+**/package-lock.json
+**/yarn.lock
+/package-lock.json
+/yarn.lock
+
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Output directory
+dist/
+release/
+out/
+
+# Grunt intermediate storage
+.grunt/
+
+# Bower dependency directory
+bower_components/
+
+# Intellij project files
+.idea/
+*.iml
+
+# VSCode settings
+.vscode/
+*.suo
+*.njsproj
+*.sln
+*.swp
+
+# Mac files
+.DS_Store
+
+# Temporary files
+tmp/
+temp/
+
+# Editor backup files
+*~
+*.bak
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+
+# Electron-builder files
+/builder-debug.yml
+/builder-effective-config.yaml
