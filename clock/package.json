@@ -12,5 +12,8 @@
   "type": "commonjs",
   "devDependencies": {
     "electron": "^37.4.0"
+  },
+  "dependencies": {
+    "tsparticles": "^3.9.1"
   }
 }

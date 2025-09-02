@@ -4,21 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Clock</title>
+    <link rel="stylesheet" href="./styles/style.css" />
+    <script src="./scripts/script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@1.37.6/tsparticles.min.js
+"></script>
   </head>
   <body>
-    <div>
+    <img src="./assets/images/clock-logo.png" alt="Logo - Clock" id="logo" />
+    <div class="container">
       <div id="clock">Carregando...</div>
       <div id="day">Carregando...</div>
     </div>
-    <script>
-      setInterval(() => {
-        const now = new Date();
 
-        document.getElementById("clock").innerHTML = now.toLocaleTimeString();
-
-        document.getElementById("day").innerHTML = now.toLocaleDateString();
-
-      }, 1000);
-    </script>
+    <div id="tsparticles"></div>
   </body>
 </html>
