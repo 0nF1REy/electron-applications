@@ -20,13 +20,16 @@ body {
 }
 
 #clock {
+  font-size: 120px;
   color: #fcfbf2;
-  font-size: 100px;
-  text-shadow: 0 0 20px rgba(165, 137, 165, 0.7);
+  text-shadow: 0 0 2px #00ffe0, 0 0 4px #00ffe0;
 }
 
 #day {
-  font-size: 20px;
+  font-size: 24px;
+  color: #a0fff0;
+  text-shadow: 0 0 5px #a0fff0;
+  margin-top: 10px;
 }
 
 #logo {
