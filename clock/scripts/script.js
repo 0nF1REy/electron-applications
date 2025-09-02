@@ -1,10 +1,11 @@
-setInterval(() => {
+function updateClock() {
   const now = new Date();
-
   document.getElementById("clock").innerHTML = now.toLocaleTimeString();
-
   document.getElementById("day").innerHTML = now.toLocaleDateString();
-}, 1000);
+}
+
+updateClock();
+setInterval(updateClock, 1000);
 
 tsParticles.load("tsparticles", {
   particles: {
@@ -19,7 +20,9 @@ tsParticles.load("tsparticles", {
     },
     opacity: {
       value: 0.2,
-      random: true,
+      random: {
+        enable: true,
+      },
     },
     size: {
       value: 3,
@@ -36,7 +39,9 @@ tsParticles.load("tsparticles", {
       speed: 2,
       direction: "none",
       random: false,
-      out_mode: "bounce",
+      outModes: {
+        default: "bounce",
+      },
     },
   },
 });
