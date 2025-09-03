@@ -20,3 +20,8 @@ contextBridge.exposeInMainWorld("ipcRenderer", {
 contextBridge.exposeInMainWorld("Toastify", {
   toast: (options) => Toastify(options).showToast(),
 });
+
+// Expor métodos específicos do Buffer para o renderer
+contextBridge.exposeInMainWorld("Buffer", {
+  from: (data, encoding) => Buffer.from(data, encoding),
+});

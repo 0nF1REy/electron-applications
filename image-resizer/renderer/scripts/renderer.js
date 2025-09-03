@@ -25,8 +25,8 @@ function loadImage(e) {
 
   // Mostra o formulário, nome da imagem e caminho de saída
   form.style.display = "block";
-  filename.innerHTML = img.files[0].name;
-  outputPath.innerText = path.join(os.homedir(), "imageresizer");
+  filename.innerHTML = file.name; // Usar file.name, já que .path não está disponível
+  outputPath.innerText = window.path.join(window.os.homedir(), "imageresizer");
 }
 
 // Garante que o arquivo seja uma imagem
@@ -49,25 +49,42 @@ function resizeImage(e) {
     return;
   }
 
-  // O Electron adiciona várias propriedades extras ao objeto de arquivo, incluindo o caminho
-  const imgPath = img.files[0].path;
+  const file = img.files[0];
   const width = widthInput.value;
   const height = heightInput.value;
 
-  ipcRenderer.send("image:resize", {
-    imgPath,
-    height,
-    width,
-  });
+  // Usar FileReader para ler o arquivo como ArrayBuffer e enviar para o main
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    // Converter ArrayBuffer para Buffer do Node.js usando a API exposta
+    const fileBuffer = window.Buffer.from(reader.result);
+    window.ipcRenderer.send("image:resize", {
+      fileName: file.name, // Enviar o nome do arquivo separadamente
+      fileBuffer, // Enviar o Buffer do conteúdo do arquivo
+      height,
+      width,
+    });
+  };
+
+  reader.onerror = (error) => {
+    console.error("FileReader error: ", error);
+    alertError("Failed to read image file.");
+  };
+  // Ler o arquivo como ArrayBuffer
+  reader.readAsArrayBuffer(file);
 }
 
-// Quando terminar, mostrar mensagem
-ipcRenderer.on("image:done", () =>
+// Quando terminar, mostrar mensagem de sucesso
+window.ipcRenderer.on("image:done", () =>
   alertSuccess(`Image resized to ${heightInput.value} x ${widthInput.value}`)
 );
 
+// Quando o processo principal enviar uma mensagem de erro
+window.ipcRenderer.on("image:error", (message) => alertError(message));
+
 function alertSuccess(message) {
-  Toastify.toast({
+  window.Toastify.toast({
     text: message,
     duration: 5000,
     close: false,
@@ -80,7 +97,7 @@ function alertSuccess(message) {
 }
 
 function alertError(message) {
-  Toastify.toast({
+  window.Toastify.toast({
     text: message,
     duration: 5000,
     close: false,

@@ -15,12 +15,12 @@ function createMainWindow() {
   mainWindow = new BrowserWindow({
     width: isDev ? 1000 : 500,
     height: 600,
-    icon: `${__dirname}/assets/icons/Icon_256x256.png`,
+    icon: path.join(__dirname, "assets", "icons", "Icon_256x256.png"),
     resizable: isDev,
     webPreferences: {
-      nodeIntegration: true,
       contextIsolation: true,
       preload: path.join(__dirname, "preload.js"),
+      sandbox: false,
     },
   });
 
@@ -28,7 +28,6 @@ function createMainWindow() {
   if (isDev) {
     mainWindow.webContents.openDevTools();
   }
-
   mainWindow.loadFile(path.join(__dirname, "./renderer/index.html"));
 }
 
@@ -38,10 +37,10 @@ function createAboutWindow() {
     width: 300,
     height: 300,
     title: "About Electron",
-    icon: `${__dirname}/assets/icons/Icon_256x256.png`,
+    icon: path.join(__dirname, "assets", "icons", "Icon_256x256.png"),
   });
-
   aboutWindow.loadFile(path.join(__dirname, "./renderer/about.html"));
+  aboutWindow.on("closed", () => (aboutWindow = null));
 }
 
 // Quando o app estiver pronto, cria a janela
@@ -113,22 +112,24 @@ const menu = [
 
 // Responder ao evento de redimensionar imagem
 ipcMain.on("image:resize", (e, options) => {
-  // console.log(options);
   options.dest = path.join(os.homedir(), "imageresizer");
   resizeImage(options);
 });
 
 // Redimensionar e salvar imagem
-async function resizeImage({ imgPath, height, width, dest }) {
+async function resizeImage({ fileName, fileBuffer, height, width, dest }) {
   try {
-    // Redimensionar imagem
-    const newPath = await resizeImg(fs.readFileSync(imgPath), {
+    // Converter o objeto de buffer de volta para Buffer do Node.js
+    const buffer = Buffer.from(fileBuffer);
+
+    // Redimensionar imagem usando o Buffer
+    const newPath = await resizeImg(buffer, {
       width: +width,
       height: +height,
     });
 
-    // Obter nome do arquivo
-    const filename = path.basename(imgPath);
+    // Usar o nome do arquivo enviado do renderer
+    const newFilename = fileName;
 
     // Criar pasta de destino se não existir
     if (!fs.existsSync(dest)) {
@@ -136,7 +137,7 @@ async function resizeImage({ imgPath, height, width, dest }) {
     }
 
     // Escrever o arquivo na pasta de destino
-    fs.writeFileSync(path.join(dest, filename), newPath);
+    fs.writeFileSync(path.join(dest, newFilename), newPath);
 
     // Enviar sucesso para o renderer
     mainWindow.webContents.send("image:done");
@@ -144,7 +145,11 @@ async function resizeImage({ imgPath, height, width, dest }) {
     // Abrir a pasta no explorador de arquivos
     shell.openPath(dest);
   } catch (err) {
-    console.log(err);
+    console.error(err);
+    mainWindow.webContents.send(
+      "image:error",
+      err.message || "Erro desconhecido ao redimensionar imagem."
+    );
   }
 }
 
