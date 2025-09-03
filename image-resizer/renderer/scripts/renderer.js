@@ -11,7 +11,7 @@ function loadImage(e) {
 
   // Verifica se o arquivo é uma imagem
   if (!isFileImage(file)) {
-    alertError("Please select an image");
+    alertError("Por favor, selecione uma imagem");
     return;
   }
 
@@ -25,7 +25,7 @@ function loadImage(e) {
 
   // Mostra o formulário, nome da imagem e caminho de saída
   form.style.display = "block";
-  filename.innerHTML = file.name; // Usar file.name, já que .path não está disponível
+  filename.innerHTML = file.name;
   outputPath.innerText = window.path.join(window.os.homedir(), "imageresizer");
 }
 
@@ -40,12 +40,12 @@ function resizeImage(e) {
   e.preventDefault();
 
   if (!img.files[0]) {
-    alertError("Please upload an image");
+    alertError("Por favor, faça o upload de uma imagem");
     return;
   }
 
   if (widthInput.value === "" || heightInput.value === "") {
-    alertError("Please enter a width and height");
+    alertError("Por favor, insira uma largura e uma altura");
     return;
   }
 
@@ -69,7 +69,7 @@ function resizeImage(e) {
 
   reader.onerror = (error) => {
     console.error("FileReader error: ", error);
-    alertError("Failed to read image file.");
+    alertError("Falha ao ler o arquivo de imagem.");
   };
   // Ler o arquivo como ArrayBuffer
   reader.readAsArrayBuffer(file);
@@ -77,7 +77,9 @@ function resizeImage(e) {
 
 // Quando terminar, mostrar mensagem de sucesso
 window.ipcRenderer.on("image:done", () =>
-  alertSuccess(`Image resized to ${heightInput.value} x ${widthInput.value}`)
+  alertSuccess(
+    `Imagem redimensionada para ${heightInput.value} x ${widthInput.value}`
+  )
 );
 
 // Quando o processo principal enviar uma mensagem de erro

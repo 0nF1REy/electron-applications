@@ -62,7 +62,7 @@ const menu = [
           label: app.name,
           submenu: [
             {
-              label: "About",
+              label: "Sobre",
               click: createAboutWindow,
             },
           ],
@@ -75,10 +75,10 @@ const menu = [
   ...(!isMac
     ? [
         {
-          label: "Help",
+          label: "Ajuda",
           submenu: [
             {
-              label: "About",
+              label: "Sobre",
               click: createAboutWindow,
             },
           ],
@@ -86,10 +86,10 @@ const menu = [
       ]
     : []),
   {
-    label: "File",
+    label: "Arquivo",
     submenu: [
       {
-        label: "Quit",
+        label: "Sair",
         click: () => app.quit(),
         accelerator: "CmdOrCtrl+W",
       },
@@ -98,7 +98,7 @@ const menu = [
   ...(isDev
     ? [
         {
-          label: "Developer",
+          label: "Desenvolvedor",
           submenu: [
             { role: "reload" },
             { role: "forcereload" },
