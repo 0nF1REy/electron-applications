@@ -22,47 +22,42 @@ function App() {
   const [isBreak, setIsBreak] = useState(false);
   const [encouragement, setEncouragement] = useState("");
   const [image, setImage] = useState(playImg);
-
   const meowAudio = useMemo(() => new Audio(meowSound), []);
 
   const cheerMessages = useMemo(
     () => [
-      "Você consegue!",
-      "Eu acredito em você!",
-      "Você é incrível!",
-      "Continue assim!",
-      "Mantenha o foco!",
+      "You Can Do It!",
+      "I believe in you!",
+      "You're amazing!",
+      "Keep going!",
+      "Stay focused!",
     ],
     []
   );
 
   const breakMessages = useMemo(
     () => [
-      "Mantenha-se hidratado!",
-      "Um lanchinho, talvez?",
-      "Me manda uma mensagem!",
-      "Eu te amo <3",
-      "Estique as pernas!",
+      "Stay hydrated!",
+      "Snacks, maybe?",
+      "Text me!",
+      "I love you <3",
+      "Stretch your legs!",
     ],
     []
   );
 
-  // Atualizador de mensagens de incentivo
   useEffect(() => {
     let messageInterval: NodeJS.Timeout;
 
     if (isRunning) {
       const messages = isBreak ? breakMessages : cheerMessages;
-
-      // Define a primeira mensagem inicialmente
       setEncouragement(messages[0]);
-
       let index = 1;
 
       messageInterval = setInterval(() => {
         setEncouragement(messages[index]);
         index = (index + 1) % messages.length;
-      }, 4000); // A cada 4 segundos
+      }, 4000);
     } else {
       setEncouragement("");
     }
@@ -70,7 +65,7 @@ function App() {
     return () => clearInterval(messageInterval);
   }, [isRunning, isBreak, breakMessages, cheerMessages]);
 
-  // Temporizador regressivo
+  // Contador regressivo
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (isRunning && timeLeft > 0) {
@@ -81,16 +76,16 @@ function App() {
     return () => clearInterval(timer);
   }, [isRunning, timeLeft]);
 
-  // Define o modo inicial como falso
+  // Configuração inicial do modo
   useEffect(() => {
     switchMode(false);
   }, []);
 
-  // Som de miado
+  // Toca som quando o tempo acaba
   useEffect(() => {
     if (timeLeft === 0 && isRunning) {
       meowAudio.play().catch((err) => {
-        console.error("Falha ao reproduzir áudio:", err);
+        console.error("Audio play failed:", err);
       });
       setIsRunning(false);
       setImage(playImg);
@@ -103,7 +98,6 @@ function App() {
     const m = Math.floor(seconds / 60)
       .toString()
       .padStart(2, "0");
-
     const s = (seconds % 60).toString().padStart(2, "0");
     return `${m}:${s}`;
   };
@@ -117,7 +111,9 @@ function App() {
     setGifImage(idleGif);
   };
 
-  const handleClick = () => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
     if (!isRunning) {
       setIsRunning(true);
       setGifImage(isBreak ? breakGif : workGif);
@@ -134,28 +130,36 @@ function App() {
     if (window.electronAPI?.closeApp) {
       window.electronAPI.closeApp();
     } else {
-      console.warn("API do Electron não disponível");
+      console.warn("Electron API not available");
     }
   };
 
-  const containerClass = `home-container ${
-    isRunning ? "background-green" : ""
-  }`;
+  const containerStyle: React.CSSProperties = {
+    position: "relative",
+    width: 820,
+    height: 480,
+    borderRadius: 20,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
+    background: "linear-gradient(145deg, #34495e, #22303f)",
+    boxShadow: "0 15px 40px rgba(0, 0, 0, 0.5)",
+  };
+
   return (
-    <div className={containerClass} style={{ position: "relative" }}>
-      <div>
-        <button className="close-button" onClick={handleCloseClick}>
-          <img src={closeBtn} alt="Fechar" />
-        </button>
-      </div>
+    <div style={containerStyle}>
+      <button className="close-button" onClick={handleCloseClick}>
+        <img src={closeBtn} alt="Close" />
+      </button>
 
       <div className="home-content">
         <div className="home-controls">
           <button className="image-button" onClick={() => switchMode(false)}>
-            <img src={workButtonImage} alt="Trabalho" />
+            <img src={workButtonImage} alt="Work" />
           </button>
           <button className="image-button" onClick={() => switchMode(true)}>
-            <img src={breakButtonImage} alt="Pausa" />
+            <img src={breakButtonImage} alt="Break" />
           </button>
         </div>
 
@@ -164,13 +168,9 @@ function App() {
         </p>
 
         <h1 className="home-timer">{formatTime(timeLeft)}</h1>
-        <img
-          src={gifImage}
-          alt="Status do temporizador"
-          className="gif-image"
-        />
+        <img src={gifImage} alt="Timer Status" className="gif-image" />
         <button className="home-button" onClick={handleClick}>
-          <img src={image} alt="Ícone do botão" />
+          <img src={image} alt="Button Icon" />
         </button>
       </div>
     </div>
