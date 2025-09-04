@@ -3,45 +3,39 @@ import "./App.css";
 
 import playImg from "./assets/play.png";
 import resetImg from "./assets/reset.png";
-import workBtnClicked from "./assets/work-clicked.png";
-import workBtn from "./assets/work.png";
-import breakBtnClicked from "./assets/break-clicked.png";
-import breakBtn from "./assets/break.png";
 import idleGif from "./assets/idle.gif";
 import workGif from "./assets/work.gif";
 import breakGif from "./assets/break.gif";
 import meowSound from "./assets/meow.mp3";
-import closeBtn from "./assets/close.png";
 
 function App() {
   const [timeLeft, setTimeLeft] = useState(25 * 60);
   const [isRunning, setIsRunning] = useState(false);
-  const [breakButtonImage, setBreakButtonImage] = useState(breakBtn);
-  const [workButtonImage, setWorkButtonImage] = useState(workBtn);
-  const [gifImage, setGifImage] = useState(idleGif);
   const [isBreak, setIsBreak] = useState(false);
   const [encouragement, setEncouragement] = useState("");
+  const [gifImage, setGifImage] = useState(idleGif);
   const [image, setImage] = useState(playImg);
+
   const meowAudio = useMemo(() => new Audio(meowSound), []);
 
   const cheerMessages = useMemo(
     () => [
-      "You Can Do It!",
-      "I believe in you!",
-      "You're amazing!",
-      "Keep going!",
-      "Stay focused!",
+      "Vamos lá!",
+      "Foco no trabalho!",
+      "Continue concentrado!",
+      "Mantenha o ritmo!",
+      "Você consegue terminar!",
     ],
     []
   );
 
   const breakMessages = useMemo(
     () => [
-      "Stay hydrated!",
-      "Snacks, maybe?",
-      "Text me!",
-      "I love you <3",
-      "Stretch your legs!",
+      "Faça uma pausa rápida",
+      "Alongue-se um pouco",
+      "Respire fundo",
+      "Relaxe por alguns minutos",
+      "Hora de descansar",
     ],
     []
   );
@@ -65,36 +59,31 @@ function App() {
     return () => clearInterval(messageInterval);
   }, [isRunning, isBreak, breakMessages, cheerMessages]);
 
-  // Contador regressivo
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (isRunning && timeLeft > 0) {
-      timer = setInterval(() => {
-        setTimeLeft((prev) => prev - 1);
-      }, 1000);
+      timer = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
     }
     return () => clearInterval(timer);
   }, [isRunning, timeLeft]);
 
-  // Configuração inicial do modo
   useEffect(() => {
     switchMode(false);
   }, []);
 
-  // Toca som quando o tempo acaba
   useEffect(() => {
     if (timeLeft === 0 && isRunning) {
-      meowAudio.play().catch((err) => {
-        console.error("Audio play failed:", err);
-      });
+      meowAudio
+        .play()
+        .catch((err) => console.error("Falha ao reproduzir áudio:", err));
       setIsRunning(false);
-      setImage(playImg);
-      setGifImage(idleGif);
       setTimeLeft(isBreak ? 5 * 60 : 25 * 60);
+      setGifImage(idleGif);
+      setImage(playImg);
     }
   }, [timeLeft, isBreak, isRunning, meowAudio]);
 
-  const formatTime = (seconds: number): string => {
+  const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60)
       .toString()
       .padStart(2, "0");
@@ -105,15 +94,12 @@ function App() {
   const switchMode = (breakMode: boolean) => {
     setIsBreak(breakMode);
     setIsRunning(false);
-    setBreakButtonImage(breakMode ? breakBtnClicked : breakBtn);
-    setWorkButtonImage(breakMode ? workBtn : workBtnClicked);
     setTimeLeft(breakMode ? 5 * 60 : 25 * 60);
     setGifImage(idleGif);
+    setImage(playImg);
   };
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-
+  const handleClick = () => {
     if (!isRunning) {
       setIsRunning(true);
       setGifImage(isBreak ? breakGif : workGif);
@@ -126,40 +112,21 @@ function App() {
     }
   };
 
-  const handleCloseClick = () => {
-    if (window.electronAPI?.closeApp) {
-      window.electronAPI.closeApp();
-    } else {
-      console.warn("Electron API not available");
-    }
-  };
-
-  const containerStyle: React.CSSProperties = {
-    position: "relative",
-    width: 820,
-    height: 480,
-    borderRadius: 20,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center",
-    background: "linear-gradient(145deg, #34495e, #22303f)",
-    boxShadow: "0 15px 40px rgba(0, 0, 0, 0.5)",
-  };
-
   return (
-    <div style={containerStyle}>
-      <button className="close-button" onClick={handleCloseClick}>
-        <img src={closeBtn} alt="Close" />
-      </button>
-
+    <div className="container">
       <div className="home-content">
         <div className="home-controls">
-          <button className="image-button" onClick={() => switchMode(false)}>
-            <img src={workButtonImage} alt="Work" />
+          <button
+            className={`text-button ${!isBreak ? "active" : ""}`}
+            onClick={() => switchMode(false)}
+          >
+            Trabalho
           </button>
-          <button className="image-button" onClick={() => switchMode(true)}>
-            <img src={breakButtonImage} alt="Break" />
+          <button
+            className={`text-button ${isBreak ? "active" : ""}`}
+            onClick={() => switchMode(true)}
+          >
+            Pausa
           </button>
         </div>
 
@@ -168,9 +135,15 @@ function App() {
         </p>
 
         <h1 className="home-timer">{formatTime(timeLeft)}</h1>
-        <img src={gifImage} alt="Timer Status" className="gif-image" />
+
+        {/* GIF animado */}
+        <div className="home-gif">
+          <img src={gifImage} alt="GIF animado" />
+        </div>
+
+        {/* Botão com ícone */}
         <button className="home-button" onClick={handleClick}>
-          <img src={image} alt="Button Icon" />
+          <img src={image} alt={isRunning ? "Reset" : "Play"} />
         </button>
       </div>
     </div>
