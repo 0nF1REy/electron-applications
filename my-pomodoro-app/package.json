@@ -25,6 +25,27 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "build": {
+    "appId": "com.my-electron-app",
+    "productName": "WorkFaster",
+    "files": [
+      "build/**/*",
+      "public/electron.js"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "src/assets/icon.icns"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  },
   "eslintConfig": {
     "extends": [
       "react-app",

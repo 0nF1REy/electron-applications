@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import logo from "./logo.svg";
+import React, { useState, useEffect, useMemo } from "react";
 import "./App.css";
 
 import playImg from "./assets/play.png";
@@ -23,23 +22,30 @@ function App() {
   const [isBreak, setIsBreak] = useState(false);
   const [encouragement, setEncouragement] = useState("");
   const [image, setImage] = useState(playImg);
-  const meowAudio = new Audio(meowSound);
 
-  const cheerMessages = [
-    "Você consegue!",
-    "Eu acredito em você!",
-    "Você é incrível!",
-    "Continue assim!",
-    "Mantenha o foco!",
-  ];
+  const meowAudio = useMemo(() => new Audio(meowSound), []);
 
-  const breakMessages = [
-    "Mantenha-se hidratado!",
-    "Um lanchinho, talvez?",
-    "Me manda uma mensagem!",
-    "Eu te amo <3",
-    "Estique as pernas!",
-  ];
+  const cheerMessages = useMemo(
+    () => [
+      "Você consegue!",
+      "Eu acredito em você!",
+      "Você é incrível!",
+      "Continue assim!",
+      "Mantenha o foco!",
+    ],
+    []
+  );
+
+  const breakMessages = useMemo(
+    () => [
+      "Mantenha-se hidratado!",
+      "Um lanchinho, talvez?",
+      "Me manda uma mensagem!",
+      "Eu te amo <3",
+      "Estique as pernas!",
+    ],
+    []
+  );
 
   // Atualizador de mensagens de incentivo
   useEffect(() => {
@@ -62,7 +68,7 @@ function App() {
     }
 
     return () => clearInterval(messageInterval);
-  }, [isRunning, isBreak]);
+  }, [isRunning, isBreak, breakMessages, cheerMessages]);
 
   // Temporizador regressivo
   useEffect(() => {
@@ -91,7 +97,7 @@ function App() {
       setGifImage(idleGif);
       setTimeLeft(isBreak ? 5 * 60 : 25 * 60);
     }
-  }, [timeLeft]);
+  }, [timeLeft, isBreak, isRunning, meowAudio]);
 
   const formatTime = (seconds: number): string => {
     const m = Math.floor(seconds / 60)
