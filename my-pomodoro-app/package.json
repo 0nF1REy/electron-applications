@@ -1,6 +1,8 @@
 {
   "name": "my-pomodoro-app",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "Um app Pomodoro feito com React + Electron",
+  "author": "Alan Ryan da Silva Domingues",
   "main": "main.js",
   "private": true,
   "homepage": ".",
@@ -10,9 +12,6 @@
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.126",
-    "@types/react": "^19.1.12",
-    "@types/react-dom": "^19.1.9",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-scripts": "5.0.1",
@@ -32,7 +31,8 @@
     "productName": "My Pomodoro",
     "files": [
       "build/**/*",
-      "public/electron.js"
+      "main.js",
+      "preload.js"
     ],
     "directories": {
       "buildResources": "assets"
@@ -67,6 +67,12 @@
     ]
   },
   "devDependencies": {
+    "@types/babel__core": "^7.20.5",
+    "@types/eslint": "^9.6.1",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^24.3.1",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
     "electron": "^38.0.0",
     "electron-builder": "^26.0.12"
   }
