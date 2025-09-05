@@ -3,9 +3,9 @@ const path = require("path");
 
 function createWindow() {
   const win = new BrowserWindow({
-    title: "WorkFaster",
-    width: 550,
-    height: 550,
+    title: "My Pomodoro App",
+    width: 420,
+    height: 520,
     frame: false,
     titleBarStyle: "hidden",
     webPreferences: {
