@@ -76,10 +76,19 @@ function App() {
       meowAudio
         .play()
         .catch((err) => console.error("Falha ao reproduzir áudio:", err));
-      setIsRunning(false);
-      setTimeLeft(isBreak ? 5 * 60 : 25 * 60);
-      setGifImage(idleGif);
-      setImage(playImg);
+
+      if (isBreak) {
+        setIsBreak(false);
+        setTimeLeft(25 * 60);
+        setGifImage(workGif);
+      } else {
+        setIsBreak(true);
+        setTimeLeft(5 * 60);
+        setGifImage(breakGif);
+      }
+
+      setIsRunning(true);
+      setImage(resetImg);
     }
   }, [timeLeft, isBreak, isRunning, meowAudio]);
 

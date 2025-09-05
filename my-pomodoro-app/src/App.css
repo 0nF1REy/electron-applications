@@ -112,6 +112,7 @@ body {
   transition: transform 0.2s ease, box-shadow 0.25s ease;
   border-radius: 50%;
   padding: 10px;
+  padding-top: 30px;
 }
 
 .home-button:hover {
@@ -140,7 +141,6 @@ body {
 .home-gif {
   width: 200px;
   height: 120px;
-  margin: 20px 0;
   border-radius: 14px;
   background: #1f2a36;
   display: flex;
