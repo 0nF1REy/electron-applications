@@ -1,7 +1,5 @@
 import "./App.css";
-
-import React, { useState, useEffect, useMemo, useCallback } from "react";
-
+import { useState, useEffect, useMemo, useCallback } from "react";
 import playImg from "./assets/play.png";
 import resetImg from "./assets/reset.png";
 import idleGif from "./assets/idle.gif";
@@ -9,8 +7,11 @@ import workGif from "./assets/work.gif";
 import breakGif from "./assets/break.gif";
 import meowSound from "./assets/meow.mp3";
 
+const WORK_TIME = 25 * 60;
+const BREAK_TIME = 5 * 60;
+
 function App() {
-  const [timeLeft, setTimeLeft] = useState(25 * 60);
+  const [timeLeft, setTimeLeft] = useState(WORK_TIME);
   const [isRunning, setIsRunning] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
   const [encouragement, setEncouragement] = useState("");
@@ -47,118 +48,71 @@ function App() {
     []
   );
 
+  const playAudio = useCallback(() => {
+    if (!audioEnabled) return;
+    meowAudio.currentTime = 0;
+    meowAudio.play().catch((err) => {
+      console.error("Erro ao reproduzir áudio:", err);
+      setTimeout(() => meowAudio.play().catch(() => {}), 100);
+    });
+  }, [audioEnabled, meowAudio]);
+
+  const switchMode = useCallback((breakMode: boolean) => {
+    setAudioEnabled(true);
+    setIsBreak(breakMode);
+    setIsRunning(false);
+    setTimeLeft(breakMode ? BREAK_TIME : WORK_TIME);
+    setGifImage(idleGif);
+    setImage(playImg);
+  }, []);
+
+  const toggleRunning = useCallback(() => {
+    setAudioEnabled(true);
+    setIsRunning((prev) => {
+      const nextState = !prev;
+      setGifImage(nextState ? (isBreak ? breakGif : workGif) : idleGif);
+      setImage(nextState ? resetImg : playImg);
+      if (!nextState) setTimeLeft(isBreak ? BREAK_TIME : WORK_TIME);
+      return nextState;
+    });
+  }, [isBreak]);
+
   useEffect(() => {
-    let messageInterval: NodeJS.Timeout;
-
-    if (isRunning) {
-      const messages = isBreak ? breakMessages : cheerMessages;
-      setEncouragement(messages[0]);
-      let index = 1;
-
-      messageInterval = setInterval(() => {
-        setEncouragement(messages[index]);
-        index = (index + 1) % messages.length;
-      }, 4000);
-    } else {
-      setEncouragement("");
-    }
-
-    return () => clearInterval(messageInterval);
-  }, [isRunning, isBreak, breakMessages, cheerMessages]);
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (isRunning && timeLeft > 0) {
-      timer = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
-    }
-    return () => clearInterval(timer);
-  }, [isRunning, timeLeft]);
-
-  useEffect(() => {
-    if (timeLeft === 0 && isRunning) {
-      if (audioEnabled) {
-        meowAudio.currentTime = 0;
-        const playPromise = meowAudio.play();
-
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              console.log("Áudio reproduzido com sucesso!");
-            })
-            .catch((err) => {
-              console.error("Falha ao reproduzir áudio:", err);
-              setTimeout(() => {
-                meowAudio
-                  .play()
-                  .catch((e) => console.error("Segundo tentativa falhou:", e));
-              }, 100);
-            });
+    if (!isRunning) return;
+    const timer = setTimeout(() => {
+      setTimeLeft((prev) => {
+        if (prev === 1) {
+          playAudio();
+          toggleRunning();
+          switchMode(!isBreak);
+          return isBreak ? WORK_TIME : BREAK_TIME;
         }
-      } else {
-        console.log(
-          "Áudio não foi habilitado ainda. Clique em qualquer botão primeiro."
-        );
-      }
-
-      if (isBreak) {
-        setIsBreak(false);
-        setTimeLeft(25 * 60);
-        setGifImage(workGif);
-      } else {
-        setIsBreak(true);
-        setTimeLeft(5 * 60);
-        setGifImage(breakGif);
-      }
-
-      setIsRunning(true);
-      setImage(resetImg);
-    }
-  }, [timeLeft, isBreak, isRunning, meowAudio, audioEnabled]);
-
-  const formatTime = (seconds: number) => {
-    const m = Math.floor(seconds / 60)
-      .toString()
-      .padStart(2, "0");
-    const s = (seconds % 60).toString().padStart(2, "0");
-    return `${m}:${s}`;
-  };
-
-  const switchMode = useCallback(
-    (breakMode: boolean) => {
-      setAudioEnabled((prev) => {
-        if (!prev) {
-          meowAudio.load();
-          return true;
-        }
-        return prev;
+        return prev - 1;
       });
+    }, 1000);
 
-      setIsBreak(breakMode);
-      setIsRunning(false);
-      setTimeLeft(breakMode ? 5 * 60 : 25 * 60);
-      setGifImage(idleGif);
-      setImage(playImg);
-    },
-    [meowAudio] 
-  );
+    return () => clearTimeout(timer);
+  }, [timeLeft, isRunning, isBreak, playAudio, toggleRunning, switchMode]);
 
-  const handleClick = () => {
-    if (!audioEnabled) {
-      setAudioEnabled(true);
-      meowAudio.load();
-    }
+  useEffect(() => {
+    let index = 0;
+    if (!isRunning) return;
 
-    if (!isRunning) {
-      setIsRunning(true);
-      setGifImage(isBreak ? breakGif : workGif);
-      setImage(resetImg);
-    } else {
-      setIsRunning(false);
-      setTimeLeft(isBreak ? 5 * 60 : 25 * 60);
-      setGifImage(idleGif);
-      setImage(playImg);
-    }
-  };
+    const messages = isBreak ? breakMessages : cheerMessages;
+    setEncouragement(messages[0]);
+
+    const interval = setInterval(() => {
+      index = (index + 1) % messages.length;
+      setEncouragement(messages[index]);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [isRunning, isBreak, cheerMessages, breakMessages]);
+
+  const formatTime = (seconds: number) =>
+    `${Math.floor(seconds / 60)
+      .toString()
+      .padStart(2, "0")}:${(seconds % 60).toString().padStart(2, "0")}`;
 
   return (
     <div className="container">
@@ -177,20 +131,14 @@ function App() {
             Pausa
           </button>
         </div>
-
         <p className={`encouragement-text ${!isRunning ? "hidden" : ""}`}>
           {encouragement}
         </p>
-
         <h1 className="home-timer">{formatTime(timeLeft)}</h1>
-
-        {/* GIF animado */}
         <div className="home-gif">
           <img src={gifImage} alt="GIF animado" />
         </div>
-
-        {/* Botão com ícone */}
-        <button className="home-button" onClick={handleClick}>
+        <button className="home-button" onClick={toggleRunning}>
           <img src={image} alt={isRunning ? "Reset" : "Play"} />
         </button>
       </div>
