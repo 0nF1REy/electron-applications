@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useMemo } from "react";
 import "./App.css";
+
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 
 import playImg from "./assets/play.png";
 import resetImg from "./assets/reset.png";
@@ -15,8 +16,14 @@ function App() {
   const [encouragement, setEncouragement] = useState("");
   const [gifImage, setGifImage] = useState(idleGif);
   const [image, setImage] = useState(playImg);
+  const [audioEnabled, setAudioEnabled] = useState(false);
 
-  const meowAudio = useMemo(() => new Audio(meowSound), []);
+  const meowAudio = useMemo(() => {
+    const audio = new Audio(meowSound);
+    audio.preload = "auto";
+    audio.volume = 0.7;
+    return audio;
+  }, []);
 
   const cheerMessages = useMemo(
     () => [
@@ -68,14 +75,30 @@ function App() {
   }, [isRunning, timeLeft]);
 
   useEffect(() => {
-    switchMode(false);
-  }, []);
-
-  useEffect(() => {
     if (timeLeft === 0 && isRunning) {
-      meowAudio
-        .play()
-        .catch((err) => console.error("Falha ao reproduzir áudio:", err));
+      if (audioEnabled) {
+        meowAudio.currentTime = 0;
+        const playPromise = meowAudio.play();
+
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              console.log("Áudio reproduzido com sucesso!");
+            })
+            .catch((err) => {
+              console.error("Falha ao reproduzir áudio:", err);
+              setTimeout(() => {
+                meowAudio
+                  .play()
+                  .catch((e) => console.error("Segundo tentativa falhou:", e));
+              }, 100);
+            });
+        }
+      } else {
+        console.log(
+          "Áudio não foi habilitado ainda. Clique em qualquer botão primeiro."
+        );
+      }
 
       if (isBreak) {
         setIsBreak(false);
@@ -90,7 +113,7 @@ function App() {
       setIsRunning(true);
       setImage(resetImg);
     }
-  }, [timeLeft, isBreak, isRunning, meowAudio]);
+  }, [timeLeft, isBreak, isRunning, meowAudio, audioEnabled]);
 
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60)
@@ -100,15 +123,31 @@ function App() {
     return `${m}:${s}`;
   };
 
-  const switchMode = (breakMode: boolean) => {
-    setIsBreak(breakMode);
-    setIsRunning(false);
-    setTimeLeft(breakMode ? 5 * 60 : 25 * 60);
-    setGifImage(idleGif);
-    setImage(playImg);
-  };
+  const switchMode = useCallback(
+    (breakMode: boolean) => {
+      setAudioEnabled((prev) => {
+        if (!prev) {
+          meowAudio.load();
+          return true;
+        }
+        return prev;
+      });
+
+      setIsBreak(breakMode);
+      setIsRunning(false);
+      setTimeLeft(breakMode ? 5 * 60 : 25 * 60);
+      setGifImage(idleGif);
+      setImage(playImg);
+    },
+    [meowAudio] 
+  );
 
   const handleClick = () => {
+    if (!audioEnabled) {
+      setAudioEnabled(true);
+      meowAudio.load();
+    }
+
     if (!isRunning) {
       setIsRunning(true);
       setGifImage(isBreak ? breakGif : workGif);
