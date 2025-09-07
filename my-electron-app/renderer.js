@@ -3,8 +3,9 @@ const func = async () => {
   console.log(response);
 };
 
-const information = document.getElementById("info");
-
 func();
 
-information.innerText = `This app is using Chrome (v${window.versions.chrome()}), Node.js (v${window.versions.node()}), and Electron (v${window.versions.electron()})`;
+document.getElementById("node-version").innerText = window.versions.node();
+document.getElementById("chrome-version").innerText = window.versions.chrome();
+document.getElementById("electron-version").innerText =
+  window.versions.electron();

@@ -8,6 +8,8 @@ const createWindow = () => {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
+      contextIsolation: true, // deixa o contextBridge seguro
+      nodeIntegration: false, // impede acesso direto ao Node.js no renderer
     },
   });
 
@@ -15,7 +17,7 @@ const createWindow = () => {
 };
 
 app.whenReady().then(() => {
-  ipcMain.handle("ping", () => "pong");
+  ipcMain.handle("ping", () => "pong"); // comunicação segura com renderer
 
   createWindow();
 
