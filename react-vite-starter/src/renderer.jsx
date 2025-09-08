@@ -1,7 +1,12 @@
 import { createRoot } from "react-dom/client";
+import Profile from "./components/Profile";
 
 const App = () => {
-  return <h1>Hello from React!</h1>;
+  return (
+    <>
+      <Profile />
+    </>
+  );
 };
 
 const container = document.getElementById("root");
