@@ -8,13 +8,21 @@
     <link rel="stylesheet" href="main.css" />
   </head>
   <body>
-    <a href="about.html">Sobre</a>
-    <br /><br />
-    <h1 id="title">Olá, Alan!</h1>
-    <br /><br />
-    <input type="text" id="noteTitle" />
-    <input type="text" id="noteContent" />
-    <button id="noteSubmit">Enviar anotação</button>
+    <div class="container">
+      <a href="about.html">Sobre</a>
+      <br /><br />
+      <h1 id="title">Olá, Alan!</h1>
+
+      <form id="noteForm">
+        <input type="text" id="noteTitle" placeholder="Título da anotação" />
+        <input
+          type="text"
+          id="noteContent"
+          placeholder="Conteúdo da anotação"
+        />
+        <button type="button" id="noteSubmit">Enviar anotação</button>
+      </form>
+    </div>
 
     <script src="script.js"></script>
   </body>
