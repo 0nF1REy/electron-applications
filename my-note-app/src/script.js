@@ -14,8 +14,6 @@ note_submit_el.addEventListener("click", async () => {
     content,
   });
 
-  console.log(res);
-
   note_title_el.value = "";
   note_content_el.value = "";
 });
