@@ -9,11 +9,6 @@ note_submit_el.addEventListener("click", async () => {
   const title = note_title_el.value;
   const content = note_content_el.value;
 
-  const res = await api.createNote({
-    title,
-    content,
-  });
-
   note_title_el.value = "";
   note_content_el.value = "";
 });
