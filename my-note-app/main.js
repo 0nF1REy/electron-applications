@@ -14,7 +14,14 @@ function createWindow() {
   ipcMain.handle("create-file", (req, data) => {
     if (!data || !data.title || !data.content) return false;
 
-    const filePath = path.join(__dirname, "notes", `${data.title}.txt`);
+    const notesDir = path.join(__dirname, "notes");
+
+    // Cria a pasta se não existir
+    if (!fs.existsSync(notesDir)) {
+      fs.mkdirSync(notesDir, { recursive: true });
+    }
+
+    const filePath = path.join(notesDir, `${data.title}.txt`);
     fs.writeFileSync(filePath, data.content);
 
     return { success: true, filePath };
