@@ -24,6 +24,11 @@ urlInputField.addEventListener("keydown", (event) => {
   }
 });
 
+goButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  handleUrl();
+});
+
 function handleUrl() {
   let url = "";
   const inputUrl = urlInputField.value;
