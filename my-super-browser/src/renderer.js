@@ -38,6 +38,23 @@ searchButton.addEventListener("click", () => {
   webview.src = url;
 });
 
+backButton.addEventListener("click", () => {
+  webview.goBack();
+});
+
+forwardButton.addEventListener("click", () => {
+  webview.goForward();
+});
+
+reloadButton.addEventListener("click", () => {
+  webview.reload();
+});
+
+webview.addEventListener("did-navigate", (event) => {
+  url = event.url;
+  urlInputField.value = url;
+});
+
 function handleUrl() {
   let url = "";
   const inputUrl = urlInputField.value;
