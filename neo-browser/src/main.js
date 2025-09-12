@@ -9,6 +9,7 @@ if (started) {
 const createWindow = () => {
   // Cria a janela do navegador
   const mainWindow = new BrowserWindow({
+    title: "Neo Browser",
     width: 800,
     height: 600,
     autoHideMenuBar: true,
