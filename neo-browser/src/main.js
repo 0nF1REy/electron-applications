@@ -20,8 +20,6 @@ const createWindow = () => {
     },
   });
 
-  mainWindow.setAlwaysOnTop(true, "screen");
-
   // E carregue o index.html do aplicativo
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
     mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
