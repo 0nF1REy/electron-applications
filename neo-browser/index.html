@@ -35,7 +35,7 @@
     <title>Neo Browser</title>
   </head>
   <body>
-    <div id="browser-tools" style="display: flex; width: 100vw">
+    <div id="browser-tools">
       <div id="button-container">
         <button id="back-button"><i class="fas fa-arrow-left"></i></button>
         <button id="forward-button"><i class="fas fa-arrow-right"></i></button>
@@ -45,11 +45,16 @@
         </button>
         <button id="new-window-button"><i class="fas fa-plus"></i></button>
       </div>
-
-      <form>
-        <input id="url-input" required />
-      </form>
-      <button id="go">go</button>
+      <div id="url-container">
+        <form>
+          <input
+            id="url-input"
+            required
+            placeholder="Pesquisar ou inserir endereço"
+          />
+        </form>
+      </div>
+      <button id="go"><i class="fas fa-arrow-right"></i></button>
     </div>
     <webview id="webview"></webview>
     <script type="module" src="/src/renderer.js"></script>
