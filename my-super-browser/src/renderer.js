@@ -25,6 +25,14 @@ urlInputField.addEventListener("keydown", (event) => {
 });
 
 function handleUrl() {
+  let url = "";
   const inputUrl = urlInputField.value;
-  webview.src = inputUrl;
+
+  if (inputUrl.startsWith("http://") || inputUrl.startsWith("https://")) {
+    url = inputUrl;
+  } else {
+    url = "http://" + inputUrl;
+  }
+
+  webview.src = url;
 }

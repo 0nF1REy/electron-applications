@@ -26,6 +26,10 @@ button {
   border-radius: 20%;
 }
 
+webview {
+  height: 100vh;
+}
+
 @media (max-width: 800px) {
   #go {
     display: none;
