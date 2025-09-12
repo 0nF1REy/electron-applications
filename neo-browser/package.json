@@ -1,8 +1,8 @@
 {
-  "name": "my-super-browser",
-  "productName": "my-super-browser",
-  "version": "1.0.0",
-  "description": "My Electron application description",
+  "name": "neo-browser",
+  "productName": "Neo Browser",
+  "version": "2.0.0",
+  "description": "Um navegador web moderno sempre visível, construído com Electron para monitoramento contínuo e multitarefas",
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",
