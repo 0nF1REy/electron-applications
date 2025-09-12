@@ -32,7 +32,7 @@ const createWindow = () => {
   }
 
   // Abre o DevTools
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 };
 
 app.whenReady().then(() => {
