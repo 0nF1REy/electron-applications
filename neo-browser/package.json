@@ -31,6 +31,7 @@
     "vite": "^5.4.20"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.0.1",
     "electron-squirrel-startup": "^1.0.1"
   }
 }

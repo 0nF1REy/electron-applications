@@ -1,4 +1,5 @@
 import "./index.css";
+import "@fortawesome/fontawesome-free/css/all.css";
 
 // Buttons
 const backButton = document.getElementById("back-button");
