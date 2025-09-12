@@ -7,6 +7,8 @@ const forwardButton = document.getElementById("forward-button");
 
 const reloadButton = document.getElementById("reload-button");
 
+const searchButton = document.getElementById("search-button");
+
 const newWindowButton = document.getElementById("new-window-button");
 
 const goButton = document.getElementById("go");
@@ -16,6 +18,7 @@ const urlInputField = document.getElementById("url-input");
 
 // Webview
 const webview = document.getElementById("webview");
+let url = "";
 
 urlInputField.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
@@ -27,6 +30,12 @@ urlInputField.addEventListener("keydown", (event) => {
 goButton.addEventListener("click", (event) => {
   event.preventDefault();
   handleUrl();
+});
+
+searchButton.addEventListener("click", () => {
+  url = "https://www.google.com/";
+  urlInputField.value = url;
+  webview.src = url;
 });
 
 function handleUrl() {
