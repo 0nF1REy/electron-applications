@@ -27,9 +27,19 @@ urlInputField.addEventListener("keydown", (event) => {
   }
 });
 
+if (!url) {
+  url = "https://www.google.com/";
+  webview.src = url;
+  urlInputField.value = url;
+}
+
 goButton.addEventListener("click", (event) => {
   event.preventDefault();
   handleUrl();
+});
+
+newWindowButton.addEventListener("click", () => {
+  api.newWindow();
 });
 
 searchButton.addEventListener("click", () => {
