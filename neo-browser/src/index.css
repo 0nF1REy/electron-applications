@@ -73,13 +73,13 @@ button:disabled {
   border: none;
   color: var(--primary-text);
   padding: 10px 15px 10px 15px;
-  padding-right: 50px; 
+  padding-right: 50px;
   font-size: 14px;
   outline: none;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  min-width: 0; 
+  min-width: 500px;
 }
 
 #go {
@@ -89,7 +89,7 @@ button:disabled {
   border: none;
   cursor: pointer;
   border-radius: 0 4px 4px 0;
-  flex-shrink: 0; 
+  flex-shrink: 0;
   position: relative;
   right: 0;
 }
