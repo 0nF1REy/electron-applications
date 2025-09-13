@@ -1,8 +1,8 @@
 {
   "name": "react-vite-starter",
-  "productName": "react-vite-starter",
+  "productName": "React Vite Starter",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "A starter template for building cross-platform desktop applications using Electron, React, and Vite",
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",
