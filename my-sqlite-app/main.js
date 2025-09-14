@@ -31,3 +31,12 @@ app.whenReady().then(() => {
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();
 });
+
+ipcMain.handle("db-query", (event, sql, params) => {
+  try {
+    return db.query(sql, params);
+  } catch (err) {
+    console.error(err);
+    return { error: err.message };
+  }
+});
