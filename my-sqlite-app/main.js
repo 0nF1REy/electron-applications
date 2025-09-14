@@ -1,14 +1,16 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
 import { fileURLToPath } from "url";
-import Database from "./database/database.js";
+import { initDB } from "./database/database.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-let db = new Database();
+let db;
 
-function createWindow() {
+async function createWindow() {
+  db = await initDB();
+
   const win = new BrowserWindow({
     width: 800,
     height: 600,
@@ -20,21 +22,21 @@ function createWindow() {
   win.loadFile(path.join(__dirname, "renderer/index.html"));
 }
 
-app.whenReady().then(() => {
-  createWindow();
-
-  app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
-  });
-});
+app.whenReady().then(createWindow);
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();
 });
 
-ipcMain.handle("db-query", (event, sql, params) => {
+// IPC para o renderer
+ipcMain.handle("db-query", async (event, sql, params = []) => {
   try {
-    return db.query(sql, params);
+    const stmt = await db.prepare(sql);
+    const result = sql.trim().toLowerCase().startsWith("select")
+      ? await stmt.all(params)
+      : await stmt.run(params);
+    await stmt.finalize();
+    return result;
   } catch (err) {
     console.error(err);
     return { error: err.message };

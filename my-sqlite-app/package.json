@@ -2,7 +2,7 @@
   "name": "my-sqlite-app",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "start": "electron .",
     "build": "electron-builder",
@@ -16,11 +16,12 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
-    "better-sqlite3": "^12.2.0",
-    "electron": "^38.1.0"
+    "electron": "^38.1.0",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "electron-builder": "^26.0.12",
+    "electron-rebuild": "^3.2.9",
     "vite": "^7.1.5"
   }
 }
