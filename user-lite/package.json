@@ -2,7 +2,7 @@
   "name": "user-lite",
   "productName": "UserLite",
   "version": "3.0.0",
-  "description": "",
+  "description": "A cross-platform desktop application for managing users with a clean interface, powered by Electron and SQLite database",
   "main": "main.js",
   "scripts": {
     "start": "NODE_ENV=development electron .",

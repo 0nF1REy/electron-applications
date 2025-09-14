@@ -17,9 +17,9 @@ function setupAutoReload() {
         hardResetMethod: "exit",
         ignore: /node_modules|[\/\\]\./,
       });
-      console.log("Auto-reload enabled");
+      console.log("Auto-reload ativado");
     } catch (error) {
-      console.log("electron-reload not available:", error.message);
+      console.log("electron-reload não disponível:", error.message);
     }
   }
 }
@@ -27,11 +27,11 @@ function setupAutoReload() {
 async function createWindow() {
   try {
     db = await initDB();
-    console.log("Database initialized successfully");
+    console.log("Banco de dados inicializado com sucesso");
 
     const win = new BrowserWindow({
       width: 800,
-      height: 600,
+      height: 500,
       webPreferences: {
         preload: path.join(__dirname, "preload.js"),
         contextIsolation: true,
@@ -46,7 +46,7 @@ async function createWindow() {
 
     win.loadFile(path.join(__dirname, "renderer/index.html"));
   } catch (error) {
-    console.error("Error creating window:", error);
+    console.error("Erro ao criar a janela:", error);
   }
 }
 
@@ -74,7 +74,7 @@ app.on("activate", () => {
 ipcMain.handle("db-query", async (event, sql, params = []) => {
   try {
     if (!db) {
-      throw new Error("Database not initialized");
+      throw new Error("Banco de dados não inicializado");
     }
 
     const stmt = await db.prepare(sql);
@@ -85,7 +85,7 @@ ipcMain.handle("db-query", async (event, sql, params = []) => {
 
     return result;
   } catch (err) {
-    console.error("Database query error:", err);
+    console.error("Erro na consulta ao banco de dados:", err);
     return { error: err.message };
   }
 });
