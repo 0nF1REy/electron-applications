@@ -6,6 +6,19 @@ import { initDB } from "./database/database.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Auto-reload em desenvolvimento
+if (process.env.NODE_ENV === "development") {
+  try {
+    const electronReload = await import("electron-reload");
+    electronReload.default(__dirname, {
+      electron: path.join(__dirname, "..", "node_modules", ".bin", "electron"),
+      hardResetMethod: "exit",
+    });
+  } catch (error) {
+    console.log("electron-reload not found");
+  }
+}
+
 let db;
 
 async function createWindow() {
@@ -22,6 +35,11 @@ async function createWindow() {
         nodeIntegration: false,
       },
     });
+
+    // Abre DevTools em desenvolvimento
+    if (process.env.NODE_ENV === "development") {
+      win.webContents.openDevTools();
+    }
 
     win.loadFile(path.join(__dirname, "renderer/index.html"));
   } catch (error) {
