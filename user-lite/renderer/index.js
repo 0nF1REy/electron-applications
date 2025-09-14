@@ -1,7 +1,7 @@
 const addBtn = document.getElementById("add");
 const usersList = document.getElementById("users");
 
-// Create modal elements
+// Criação dos elementos do modal
 function createModal() {
   const modal = document.createElement("div");
   modal.className = "modal";
@@ -36,10 +36,8 @@ addBtn.addEventListener("click", async () => {
   const emailInput = modal.querySelector("#userEmail");
   const cancelBtn = modal.querySelector("#cancelBtn");
 
-  // Focus on first input
   nameInput.focus();
 
-  // Handle form submission
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -68,19 +66,18 @@ addBtn.addEventListener("click", async () => {
     }
   });
 
-  // Handle cancel
   cancelBtn.addEventListener("click", () => {
     modal.remove();
   });
 
-  // Close modal when clicking outside
+  // Fechar o modal ao clicar fora dele
   modal.addEventListener("click", (e) => {
     if (e.target === modal) {
       modal.remove();
     }
   });
 
-  // Close modal with Escape key
+  // Fechar o modal ao pressionar a tecla Escape
   document.addEventListener("keydown", function escapeHandler(e) {
     if (e.key === "Escape") {
       modal.remove();

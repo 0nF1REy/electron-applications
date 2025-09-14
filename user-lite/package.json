@@ -1,7 +1,7 @@
 {
-  "name": "my-sqlite-app",
-  "productName": "My SQLite APP",
-  "version": "2.0.0",
+  "name": "user-lite",
+  "productName": "UserLite",
+  "version": "3.0.0",
   "description": "",
   "main": "main.js",
   "scripts": {

@@ -8,11 +8,11 @@ const __dirname = path.dirname(__filename);
 
 let db;
 
-async function setupAutoReload() {
+function setupAutoReload() {
   if (process.env.NODE_ENV === "development") {
     try {
-      const electronReload = await import("electron-reload");
-      electronReload.default(__dirname, {
+      const electronReload = require("electron-reload");
+      electronReload(__dirname, {
         electron: path.join(__dirname, "node_modules", ".bin", "electron"),
         hardResetMethod: "exit",
         ignore: /node_modules|[\/\\]\./,
