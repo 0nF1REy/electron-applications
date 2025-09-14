@@ -6,20 +6,23 @@ import { initDB } from "./database/database.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Auto-reload em desenvolvimento
-if (process.env.NODE_ENV === "development") {
-  try {
-    const electronReload = await import("electron-reload");
-    electronReload.default(__dirname, {
-      electron: path.join(__dirname, "..", "node_modules", ".bin", "electron"),
-      hardResetMethod: "exit",
-    });
-  } catch (error) {
-    console.log("electron-reload not found");
+let db;
+
+async function setupAutoReload() {
+  if (process.env.NODE_ENV === "development") {
+    try {
+      const electronReload = await import("electron-reload");
+      electronReload.default(__dirname, {
+        electron: path.join(__dirname, "node_modules", ".bin", "electron"),
+        hardResetMethod: "exit",
+        ignore: /node_modules|[\/\\]\./,
+      });
+      console.log("Auto-reload enabled");
+    } catch (error) {
+      console.log("electron-reload not available:", error.message);
+    }
   }
 }
-
-let db;
 
 async function createWindow() {
   try {
@@ -47,7 +50,10 @@ async function createWindow() {
   }
 }
 
-app.whenReady().then(createWindow);
+app.whenReady().then(async () => {
+  await setupAutoReload();
+  await createWindow();
+});
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
@@ -55,6 +61,12 @@ app.on("window-all-closed", () => {
       db.close();
     }
     app.quit();
+  }
+});
+
+app.on("activate", () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow();
   }
 });
 
