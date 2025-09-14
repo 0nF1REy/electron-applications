@@ -1,30 +1,92 @@
 const addBtn = document.getElementById("add");
 const usersList = document.getElementById("users");
 
+// Create modal elements
+function createModal() {
+  const modal = document.createElement("div");
+  modal.className = "modal";
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h2>Adicionar Usuário</h2>
+      <form id="userForm">
+        <div class="form-group">
+          <label for="userName">Nome:</label>
+          <input type="text" id="userName" required>
+        </div>
+        <div class="form-group">
+          <label for="userEmail">Email:</label>
+          <input type="email" id="userEmail" required>
+        </div>
+        <div class="form-buttons">
+          <button type="submit">Adicionar</button>
+          <button type="button" id="cancelBtn">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+  return modal;
+}
+
 addBtn.addEventListener("click", async () => {
-  try {
-    const name = prompt("Nome do usuário:");
-    if (!name) return;
+  const modal = createModal();
+  const form = modal.querySelector("#userForm");
+  const nameInput = modal.querySelector("#userName");
+  const emailInput = modal.querySelector("#userEmail");
+  const cancelBtn = modal.querySelector("#cancelBtn");
 
-    const email = prompt("Email:");
-    if (!email) return;
+  // Focus on first input
+  nameInput.focus();
 
-    const result = await window.api.query(
-      "INSERT INTO users (name, email) VALUES (?, ?)",
-      [name, email]
-    );
+  // Handle form submission
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-    if (result.error) {
-      alert("Erro ao adicionar usuário: " + result.error);
-      return;
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+
+    if (!name || !email) return;
+
+    try {
+      const result = await window.api.query(
+        "INSERT INTO users (name, email) VALUES (?, ?)",
+        [name, email]
+      );
+
+      if (result.error) {
+        alert("Erro ao adicionar usuário: " + result.error);
+        return;
+      }
+
+      console.log("Usuário adicionado com sucesso!");
+      await loadUsers();
+      modal.remove();
+    } catch (error) {
+      console.error("Erro:", error);
+      alert("Erro ao adicionar usuário");
     }
+  });
 
-    console.log("Usuário adicionado com sucesso!");
-    await loadUsers();
-  } catch (error) {
-    console.error("Erro:", error);
-    alert("Erro ao adicionar usuário");
-  }
+  // Handle cancel
+  cancelBtn.addEventListener("click", () => {
+    modal.remove();
+  });
+
+  // Close modal when clicking outside
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.remove();
+    }
+  });
+
+  // Close modal with Escape key
+  document.addEventListener("keydown", function escapeHandler(e) {
+    if (e.key === "Escape") {
+      modal.remove();
+      document.removeEventListener("keydown", escapeHandler);
+    }
+  });
 });
 
 async function loadUsers() {
