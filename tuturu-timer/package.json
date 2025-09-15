@@ -4,12 +4,26 @@
   "version": "3.0.0",
   "description": "A sleek and minimalist desktop timer application built with Electron and React. This cross-platform app combines modern UI aesthetics with essential timing functionality",
   "main": "./out/main/index.js",
+  "keywords": [
+    "electron",
+    "react",
+    "timer",
+    "desktop-app",
+    "productivity"
+  ],
   "author": {
     "name": "Alan Ryan da Silva Domingues",
     "email": "alanryan619@gmail.com"
   },
   "license": "MIT",
-  "homepage": "https://electron-vite.org",
+  "homepage": "https://github.com/0nF1REy/react-native-projects",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0nF1REy/react-native-projects.git"
+  },
+  "bugs": {
+    "url": "https://github.com/0nF1REy/react-native-projects/issues"
+  },
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint --cache .",
