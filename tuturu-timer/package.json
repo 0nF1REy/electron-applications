@@ -2,9 +2,13 @@
   "name": "tuturu-timer",
   "productName": "Tuturu Timer",
   "version": "3.0.0",
-  "description": "An Electron application with React",
+  "description": "A sleek and minimalist desktop timer application built with Electron and React. This cross-platform app combines modern UI aesthetics with essential timing functionality",
   "main": "./out/main/index.js",
-  "author": "example.com",
+  "author": {
+    "name": "Alan Ryan da Silva Domingues",
+    "email": "alanryan619@gmail.com"
+  },
+  "license": "MIT",
   "homepage": "https://electron-vite.org",
   "scripts": {
     "format": "prettier --write .",
