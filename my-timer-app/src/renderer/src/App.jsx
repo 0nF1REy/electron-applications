@@ -7,6 +7,7 @@ function App() {
   return (
     <>
       <TopBarComponent></TopBarComponent>
+      <div className="bg-black bg-opacity-40 p-2 rounded-b-xl"></div>
       <Timer></Timer>
     </>
   )
