@@ -3,3 +3,7 @@
 html {
   font-family: 'Courier New', Courier, monospace;
 }
+
+button:hover {
+  transform: scale(1.1);
+}
