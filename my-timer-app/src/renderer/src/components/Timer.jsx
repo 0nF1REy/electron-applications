@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import InputField from './InputField'
+import alarm from '../assets/sounds/tuturu.mp3'
 
 export default function Timer({ isOverlay }) {
   const [isEditing, setIsEditing] = useState(false)
@@ -7,6 +8,7 @@ export default function Timer({ isOverlay }) {
   const [seconds, setSeconds] = useState(0)
   const [hours, setHours] = useState(0)
   const [isActive, setIsActive] = useState(false)
+  const audio = new Audio(alarm)
 
   useEffect(() => {
     let intervalId
@@ -17,7 +19,7 @@ export default function Timer({ isOverlay }) {
           setSeconds((prev) => prev - 1)
         } else {
           if (minutes === 0 && hours === 0) {
-            // Audio
+            audio.play()
 
             clearInterval(intervalId)
             setIsActive(false)
@@ -74,12 +76,31 @@ export default function Timer({ isOverlay }) {
           </div>
           <div
             id="timer-buttons"
-            className="text-stone-500 flex justify-center bg-black bg-opacity-10 rounded-xl"
+            className={
+              !isOverlay
+                ? 'text-stone-500 flex justify-center bg-black bg-opacity-10 rounded-xl'
+                : 'hidden '
+            }
           >
             {isActive ? (
               <>
-                <button>pause</button>
-                <button>stop</button>
+                <button
+                  onClick={() => setIsActive(false)}
+                  className="start text-5xl text-yellow-500 m-2"
+                >
+                  &#9208;
+                </button>
+                <button
+                  onClick={() => {
+                    setIsActive(false)
+                    setHours(0)
+                    setMinutes(1)
+                    setSeconds(0)
+                  }}
+                  className="start text-5xl text-red-500 m-2"
+                >
+                  &#9632;
+                </button>
               </>
             ) : (
               <>

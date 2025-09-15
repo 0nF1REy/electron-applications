@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, globalShortcut } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -17,6 +17,16 @@ function createWindow() {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
     }
+  })
+
+  let toggleOverlayHotkey = "CommandOrControl+6"
+  let isOverlayOn = false;
+
+  globalShortcut.register(toggleOverlayHotkey, ()=> {
+    isOverlayOn = !isOverlayOn;
+    mainWindow.setIgnoreMouseEvents(isOverlayOn);
+
+    mainWindow.webContents.send("overlay-mode", isOverlayOn);
   })
 
   mainWindow.setAlwaysOnTop(true, 'screen')

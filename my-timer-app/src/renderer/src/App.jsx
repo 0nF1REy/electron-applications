@@ -1,14 +1,36 @@
 import TopBarComponent from './components/TopBar'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Timer from './components/Timer'
 
 function App() {
   const [isOverlay, setIsOverlay] = useState(false)
+
+  useEffect(() => {
+    const toggleOverlay = () => {
+      setIsOverlay((prev) => !prev)
+    }
+
+    window.electron.ipcRenderer.on('overlay-mode', toggleOverlay)
+
+    return () => {
+      window.electron.ipcRenderer.removeAllListeners('overlay-mode')
+    }
+  }, [])
+
   return (
     <>
-      <TopBarComponent></TopBarComponent>
-      <div className="bg-black bg-opacity-40 p-2 rounded-b-xl"></div>
-      <Timer></Timer>
+      <div className={!isOverlay ? 'visible' : 'invisible'}>
+        <TopBarComponent />
+      </div>
+      <div
+        className={
+          !isOverlay
+            ? 'bg-black bg-opacity-40 p-2 rounded-b-xl'
+            : 'bg-black bg-opacity-40 p-2 rounded-xl'
+        }
+      >
+        <Timer isOverlay={isOverlay} />
+      </div>
     </>
   )
 }
