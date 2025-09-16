@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import clsx from 'clsx'
 import TopBarComponent from './components/TopBar'
 import Timer from './components/Timer'
 
@@ -23,16 +24,15 @@ function App() {
       }}
     >
       <div
-        className={`
-          absolute inset-0 pointer-events-none
-          transition-opacity duration-500
-      ${!isOverlay ? (isEditing ? 'bg-black/80' : 'bg-black/60') : 'opacity-0'}
-
-        `}
+        className={clsx(
+          'absolute inset-0 pointer-events-none transition-opacity duration-500',
+          !isOverlay && (isEditing ? 'bg-black/80' : 'bg-black/60'),
+          isOverlay && 'opacity-0'
+        )}
       ></div>
 
       <div className="relative z-10 flex h-full flex-col">
-        <div className={!isOverlay ? 'visible' : 'hidden'}>
+        <div className={clsx(!isOverlay && 'visible', isOverlay && 'hidden')}>
           <TopBarComponent />
         </div>
 
