@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
+import PropTypes from 'prop-types'
 import InputField from './InputField'
 import alarm from '../assets/sounds/tuturu.mp3'
 
@@ -8,7 +9,8 @@ export default function Timer({ isOverlay }) {
   const [seconds, setSeconds] = useState(0)
   const [hours, setHours] = useState(0)
   const [isActive, setIsActive] = useState(false)
-  const audio = new Audio(alarm)
+
+  const audio = useMemo(() => new Audio(alarm), [])
 
   useEffect(() => {
     let intervalId
@@ -37,7 +39,9 @@ export default function Timer({ isOverlay }) {
     }
 
     return () => clearInterval(intervalId)
-  }, [isActive, seconds, minutes, hours])
+  }, [isActive, seconds, minutes, hours, audio])
+
+  const parseValue = (value) => parseInt(value) || 0
 
   return (
     <div>
@@ -48,17 +52,17 @@ export default function Timer({ isOverlay }) {
             <InputField
               label={'Hours'}
               value={hours}
-              onChange={(e) => setHours(parseInt(e.target.value))}
+              onChange={(e) => setHours(parseValue(e.target.value))}
             ></InputField>
             <InputField
               label={'Minutes'}
               value={minutes}
-              onChange={(e) => setMinutes(parseInt(e.target.value))}
+              onChange={(e) => setMinutes(parseValue(e.target.value))}
             ></InputField>
             <InputField
               label={'Seconds'}
               value={seconds}
-              onChange={(e) => setSeconds(parseInt(e.target.value))}
+              onChange={(e) => setSeconds(parseValue(e.target.value))}
             ></InputField>
             <button
               className="bg-blue-500 text-stone-200 px-20 py-1 rounded-xl text-xl mt-1 ml-1"
@@ -123,4 +127,9 @@ export default function Timer({ isOverlay }) {
       )}
     </div>
   )
+}
+
+// Validação da prop
+Timer.propTypes = {
+  isOverlay: PropTypes.bool
 }
