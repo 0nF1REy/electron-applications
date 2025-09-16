@@ -8,13 +8,15 @@ export default function TopBarComponent() {
   }
 
   return (
-    <div>
+    <div
+      className="rounded-t-xl bg-blue-400 w-full h-8 flex justify-end items-center"
+      style={{ WebkitAppRegion: 'drag' }}
+    >
       <div
-        className="rounded-t-xl bg-blue-400 w-screen h-5"
+        id="control-buttons"
+        className="text-stone-200 pe-2"
         style={{ WebkitAppRegion: 'no-drag' }}
-      ></div>
-      <div className="bg-blue-400 w-screen h-3"></div>
-      <div id="control-buttons" className="text-stone-200 absolute top-1 right-0 pe-2">
+      >
         <button id="minimize" className="p-1" onClick={handleMinimize}>
           &#128469;
         </button>
