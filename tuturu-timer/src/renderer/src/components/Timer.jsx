@@ -2,6 +2,8 @@ import { useState, useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import InputField from './InputField'
 import alarm from '../assets/sounds/tuturu.mp3'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlay, faPause, faStop, faPencil, faCheck } from '@fortawesome/free-solid-svg-icons'
 
 function NixieDigit({ digit }) {
   return (
@@ -27,15 +29,12 @@ function NixieDisplay({ hours, minutes, seconds }) {
 
   return (
     <div className="flex items-center justify-center space-x-2">
-      {/* Horas */}
       <NixieDigit digit={time[0]} />
       <NixieDigit digit={time[1]} />
       <div className="text-6xl text-cyan-accent animate-pulse">:</div>
-      {/* Minutos */}
       <NixieDigit digit={time[2]} />
       <NixieDigit digit={time[3]} />
       <div className="text-6xl text-cyan-accent animate-pulse">:</div>
-      {/* Segundos */}
       <NixieDigit digit={time[4]} />
       <NixieDigit digit={time[5]} />
     </div>
@@ -91,25 +90,25 @@ export default function Timer({ isOverlay, isEditing, setIsEditing }) {
       {isEditing ? (
         <div className="w-4/5 flex flex-col items-center p-4 bg-metal-medium border border-metal-light rounded">
           <InputField
-            label={'HOURS'}
+            label={'HORAS'}
             value={hours}
             onChange={(e) => setHours(parseValue(e.target.value))}
           />
           <InputField
-            label={'MINUTES'}
+            label={'MINUTOS'}
             value={minutes}
             onChange={(e) => setMinutes(parseValue(e.target.value))}
           />
           <InputField
-            label={'SECONDS'}
+            label={'SEGUNDOS'}
             value={seconds}
             onChange={(e) => setSeconds(parseValue(e.target.value))}
           />
           <button
-            className="text-lg bg-cyan-dark text-cyan-accent border border-cyan-accent px-6 py-1 mt-4"
+            className="text-2xl bg-cyan-dark text-cyan-accent border border-cyan-accent rounded-full w-12 h-12 flex items-center justify-center mt-4"
             onClick={() => setIsEditing(false)}
           >
-            {'> SET DIVERGENCE'}
+            <FontAwesomeIcon icon={faCheck} />
           </button>
         </div>
       ) : (
@@ -117,36 +116,36 @@ export default function Timer({ isOverlay, isEditing, setIsEditing }) {
           <NixieDisplay hours={hours} minutes={minutes} seconds={seconds} />
           <div
             id="timer-buttons"
-            className={`mt-4 text-md flex justify-center space-x-4 ${!isOverlay ? 'visible' : 'hidden'}`}
+            className={`mt-6 text-xl flex justify-center space-x-6 ${!isOverlay ? 'visible' : 'hidden'}`}
           >
             {isActive ? (
               <>
                 <button
                   onClick={() => setIsActive(false)}
-                  className="bg-metal-dark text-nixie-orange border border-nixie-orange px-4 py-1"
+                  className="bg-metal-dark text-nixie-orange border border-nixie-orange rounded-full w-12 h-12 flex items-center justify-center"
                 >
-                  {'// PAUSE'}
+                  <FontAwesomeIcon icon={faPause} />
                 </button>
                 <button
                   onClick={resetTimer}
-                  className="bg-red-900 text-red-300 border border-red-300 px-4 py-1"
+                  className="bg-red-900 text-red-300 border border-red-300 rounded-full w-12 h-12 flex items-center justify-center"
                 >
-                  {'// ABORT'}
+                  <FontAwesomeIcon icon={faStop} />
                 </button>
               </>
             ) : (
               <>
                 <button
                   onClick={() => setIsActive(true)}
-                  className="bg-cyan-dark text-cyan-accent border border-cyan-accent px-4 py-1"
+                  className="bg-cyan-dark text-cyan-accent border border-cyan-accent rounded-full w-12 h-12 flex items-center justify-center"
                 >
-                  {'> ENGAGE'}
+                  <FontAwesomeIcon icon={faPlay} />
                 </button>
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="bg-metal-dark text-nixie-orange border border-nixie-orange px-4 py-1"
+                  className="bg-metal-dark text-nixie-orange border border-nixie-orange rounded-full w-12 h-12 flex items-center justify-center"
                 >
-                  {'// CONFIG'}
+                  <FontAwesomeIcon icon={faPencil} />
                 </button>
               </>
             )}

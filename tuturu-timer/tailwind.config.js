@@ -6,8 +6,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Orbitron', 'sans-serif'],
-        digital: ['Orbitron', 'monospace']
+        sans: ['VT323', 'sans-serif'],
+        digital: ['VT323', 'monospace']
       },
       colors: {
         'nixie-orange': '#ff7a00',
