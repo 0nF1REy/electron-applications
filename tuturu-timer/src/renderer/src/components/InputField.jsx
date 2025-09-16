@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-export default function InputField({ label, value, onChange, placeholder }) {
+export default function InputField({ label, value, onChange }) {
   const handleInputChange = (e) => {
     const inputValue = e.target.value
     if (/^\d*$/.test(inputValue)) {
@@ -9,14 +9,13 @@ export default function InputField({ label, value, onChange, placeholder }) {
   }
 
   return (
-    <div className="text-3xl">
-      <label className="text-stone-300">{label}:</label>
+    <div className="font-digital text-2xl flex items-center justify-between my-1">
+      <label className="text-amber pr-4">{label}:</label>
       <input
         type="number"
         value={value}
         onChange={handleInputChange}
-        placeholder={placeholder}
-        className="w-20 bg-transparent text-blue-400"
+        className="w-24 bg-amber-dark text-amber text-center border border-amber focus:outline-none focus:ring-2 focus:ring-amber"
       />
     </div>
   )
@@ -26,6 +25,5 @@ export default function InputField({ label, value, onChange, placeholder }) {
 InputField.propTypes = {
   label: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  onChange: PropTypes.func.isRequired,
-  placeholder: PropTypes.string
+  onChange: PropTypes.func.isRequired
 }
