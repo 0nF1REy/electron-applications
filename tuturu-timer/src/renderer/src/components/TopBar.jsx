@@ -9,19 +9,16 @@ export default function TopBarComponent() {
 
   return (
     <div
-      className="rounded-t-xl bg-blue-400 w-full h-8 flex justify-end items-center"
+      className="bg-industrial-dark w-full h-8 flex justify-between items-center px-3 border-b-2 border-industrial-medium"
       style={{ WebkitAppRegion: 'drag' }}
     >
-      <div
-        id="control-buttons"
-        className="text-stone-200 pe-2"
-        style={{ WebkitAppRegion: 'no-drag' }}
-      >
-        <button id="minimize" className="p-1" onClick={handleMinimize}>
-          &#128469;
+      <div className="text-fallout-green text-lg">TUTURU_TIMER_v3.0</div>
+      <div className="text-fallout-green" style={{ WebkitAppRegion: 'no-drag' }}>
+        <button className="px-2" onClick={handleMinimize}>
+          _
         </button>
-        <button id="close" className="p-1" onClick={handleClose}>
-          &#x2715;
+        <button className="px-2" onClick={handleClose}>
+          X
         </button>
       </div>
     </div>
