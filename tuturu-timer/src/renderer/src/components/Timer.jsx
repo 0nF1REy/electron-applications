@@ -3,122 +3,116 @@ import PropTypes from 'prop-types'
 import InputField from './InputField'
 import alarm from '../assets/sounds/tuturu.mp3'
 
-export default function Timer({ isOverlay }) {
-  const [isEditing, setIsEditing] = useState(false)
+export default function Timer({ isOverlay, isEditing, setIsEditing }) {
   const [minutes, setMinutes] = useState(1)
   const [seconds, setSeconds] = useState(0)
   const [hours, setHours] = useState(0)
   const [isActive, setIsActive] = useState(false)
-
   const audio = useMemo(() => new Audio(alarm), [])
 
   useEffect(() => {
     let intervalId
-
-    if (isActive) {
+    if (isActive && !isEditing) {
       intervalId = setInterval(() => {
         if (seconds > 0) {
           setSeconds((prev) => prev - 1)
+        } else if (minutes > 0) {
+          setMinutes((prev) => prev - 1)
+          setSeconds(59)
+        } else if (hours > 0) {
+          setHours((prev) => prev - 1)
+          setMinutes(59)
+          setSeconds(59)
         } else {
-          if (minutes === 0 && hours === 0) {
-            audio.play()
-
-            clearInterval(intervalId)
-            setIsActive(false)
-          } else {
-            if (minutes === 0) {
-              setHours((prev) => prev - 1)
-              setMinutes(59)
-            } else {
-              setMinutes((prev) => prev - 1)
-            }
-            setSeconds(59)
-          }
+          audio.play()
+          clearInterval(intervalId)
+          setIsActive(false)
         }
       }, 1000)
     }
-
     return () => clearInterval(intervalId)
-  }, [isActive, seconds, minutes, hours, audio])
+  }, [isActive, seconds, minutes, hours, audio, isEditing])
 
   const parseValue = (value) => parseInt(value) || 0
 
+  const resetTimer = () => {
+    setIsActive(false)
+    setHours(0)
+    setMinutes(1)
+    setSeconds(0)
+  }
+
   return (
-    <div>
+    <div className="w-full text-center">
       {isEditing ? (
-        // Time Setup
-        <div className="flex justify-center">
-          <div>
-            <InputField
-              label={'Hours'}
-              value={hours}
-              onChange={(e) => setHours(parseValue(e.target.value))}
-            ></InputField>
-            <InputField
-              label={'Minutes'}
-              value={minutes}
-              onChange={(e) => setMinutes(parseValue(e.target.value))}
-            ></InputField>
-            <InputField
-              label={'Seconds'}
-              value={seconds}
-              onChange={(e) => setSeconds(parseValue(e.target.value))}
-            ></InputField>
-            <button
-              className="bg-blue-500 text-stone-200 px-20 py-1 rounded-xl text-xl mt-1 ml-1"
-              onClick={() => setIsEditing(false)}
-            >
-              &#10004;
-            </button>
-          </div>
+        <div className="flex flex-col items-center">
+          <InputField
+            label={'H'}
+            value={hours}
+            onChange={(e) => setHours(parseValue(e.target.value))}
+          />
+          <InputField
+            label={'M'}
+            value={minutes}
+            onChange={(e) => setMinutes(parseValue(e.target.value))}
+          />
+          <InputField
+            label={'S'}
+            value={seconds}
+            onChange={(e) => setSeconds(parseValue(e.target.value))}
+          />
+          <button
+            className="font-digital text-2xl bg-amber-dark text-amber border border-amber px-8 py-1 mt-3"
+            onClick={() => setIsEditing(false)}
+          >
+            [CONFIRM]
+          </button>
         </div>
       ) : (
-        // Timer
-        <div>
-          <div className="flex justify-center">
-            <h1 className="text-green-500 text-6xl">{`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`}</h1>
+        <div className="flex flex-col items-center">
+          <div className="font-digital text-fallout-green text-7xl text-shadow-glow">
+            <span>{hours.toString().padStart(2, '0')}</span>
+            <span className="animate-pulse">:</span>
+            <span>{minutes.toString().padStart(2, '0')}</span>
+            <span className="animate-pulse">:</span>
+            <span>{seconds.toString().padStart(2, '0')}</span>
           </div>
+
           <div
             id="timer-buttons"
-            className={
-              !isOverlay
-                ? 'text-stone-500 flex justify-center bg-black bg-opacity-10 rounded-xl'
-                : 'hidden '
-            }
+            className={`
+              mt-4 text-xl flex justify-center space-x-4
+              ${!isOverlay ? 'visible' : 'hidden'}
+            `}
           >
             {isActive ? (
               <>
                 <button
                   onClick={() => setIsActive(false)}
-                  className="start text-5xl text-yellow-500 m-2"
+                  className="bg-amber-dark text-amber border border-amber px-4 py-1"
                 >
-                  &#9208;
+                  [PAUSE]
                 </button>
                 <button
-                  onClick={() => {
-                    setIsActive(false)
-                    setHours(0)
-                    setMinutes(1)
-                    setSeconds(0)
-                  }}
-                  className="start text-5xl text-red-500 m-2"
+                  onClick={resetTimer}
+                  className="bg-red-900 text-red-300 border border-red-300 px-4 py-1"
                 >
-                  &#9632;
+                  [STOP]
                 </button>
               </>
             ) : (
               <>
                 <button
-                  className="start text-5xl text-green-500 m-2"
                   onClick={() => setIsActive(true)}
+                  className="bg-fallout-green-dark text-fallout-green border border-fallout-green px-4 py-1"
                 >
-                  &#9658;
+                  [START]
                 </button>
                 <button
-                  className="start text-4xl text-yellow-500 m-2"
                   onClick={() => setIsEditing(true)}
+                  className="bg-amber-dark text-amber border border-amber px-4 py-1"
                 >
-                  &#9998;
+                  [EDIT]
                 </button>
               </>
             )}
@@ -129,7 +123,9 @@ export default function Timer({ isOverlay }) {
   )
 }
 
-// Validação da prop
+// Validação das props
 Timer.propTypes = {
-  isOverlay: PropTypes.bool
+  isOverlay: PropTypes.bool,
+  isEditing: PropTypes.bool.isRequired,
+  setIsEditing: PropTypes.func.isRequired
 }
