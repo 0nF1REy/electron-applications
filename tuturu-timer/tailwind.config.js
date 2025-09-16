@@ -6,33 +6,45 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        digital: ['VT323', 'monospace']
+        sans: ['Orbitron', 'sans-serif'],
+        digital: ['Orbitron', 'monospace']
       },
       colors: {
-        'fallout-green': '#28f700',
-        'fallout-green-dark': '#072600',
-        amber: '#FFBF00',
-        'amber-dark': '#382800',
-        'industrial-dark': '#212121',
-        'industrial-medium': '#323232'
-      },
-      backgroundImage: {
-        'background-normal': "url('./src/assets/images/background-normal.jpg')",
-        'background-edit': "url('./src/assets/images/background-edit.jpg')"
+        'nixie-orange': '#ff7a00',
+        'nixie-glow': '#ffc800',
+        'cyan-accent': '#00ffff',
+        'cyan-dark': '#003c3c',
+        'metal-dark': '#1a1a1a',
+        'metal-medium': '#2a2a2a',
+        'metal-light': '#4a4a4a'
       },
       textShadow: {
-        glow: '0 0 5px currentColor, 0 0 10px currentColor'
+        glow: '0 0 5px currentColor, 0 0 15px currentColor, 0 0 25px currentColor'
+      },
+      keyframes: {
+        flicker: {
+          '0%, 100%': { opacity: 1 },
+          '50%': { opacity: 0.8 }
+        },
+        glitch: {
+          '0%': { transform: 'translate(0)' },
+          '20%': { transform: 'translate(-2px, 2px)' },
+          '40%': { transform: 'translate(-2px, -2px)' },
+          '60%': { transform: 'translate(2px, 2px)' },
+          '80%': { transform: 'translate(2px, -2px)' },
+          '100%': { transform: 'translate(0)' }
+        }
+      },
+      animation: {
+        flicker: 'flicker 1.5s infinite',
+        glitch: 'glitch 0.2s infinite'
       }
     }
   },
   plugins: [
     plugin(function ({ matchUtilities, theme }) {
       matchUtilities(
-        {
-          'text-shadow': (value) => ({
-            textShadow: value
-          })
-        },
+        { 'text-shadow': (value) => ({ textShadow: value }) },
         { values: theme('textShadow') }
       )
     })

@@ -2,20 +2,17 @@ import PropTypes from 'prop-types'
 
 export default function InputField({ label, value, onChange }) {
   const handleInputChange = (e) => {
-    const inputValue = e.target.value
-    if (/^\d*$/.test(inputValue)) {
-      onChange(e)
-    }
+    if (/^\d*$/.test(e.target.value)) onChange(e)
   }
 
   return (
-    <div className="font-digital text-2xl flex items-center justify-between my-1">
-      <label className="text-amber pr-4">{label}:</label>
+    <div className="text-lg flex items-center justify-between my-1 w-full">
+      <label className="text-cyan-accent pr-4">{label}</label>
       <input
         type="number"
         value={value}
         onChange={handleInputChange}
-        className="w-24 bg-amber-dark text-amber text-center border border-amber focus:outline-none focus:ring-2 focus:ring-amber"
+        className="w-28 bg-metal-dark text-nixie-orange text-center text-2xl border border-metal-light focus:outline-none focus:ring-2 focus:ring-cyan-accent"
       />
     </div>
   )
