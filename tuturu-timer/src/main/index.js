@@ -4,7 +4,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
 function createWindow() {
-  // Criação da janela do navegador
+  // Criação da janela
   const mainWindow = new BrowserWindow({
     width: 350,
     height: 200,
