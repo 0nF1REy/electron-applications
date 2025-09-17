@@ -43,6 +43,7 @@ function App() {
             isOverlay={isOverlay}
             isEditing={isEditing}
             setIsEditing={setIsEditing}
+            isFinished={isFinished}
             setIsFinished={setIsFinished}
           />
         </div>

@@ -46,10 +46,14 @@ NixieDisplay.propTypes = {
   seconds: PropTypes.number
 }
 
-export default function Timer({ isOverlay, isEditing, setIsEditing, setIsFinished }) {
-  const [minutes, setMinutes] = useState(1)
-  const [seconds, setSeconds] = useState(0)
-  const [hours, setHours] = useState(0)
+export default function Timer({ isOverlay, isEditing, setIsEditing, isFinished, setIsFinished }) {
+  const defaultMinutes = 1
+  const defaultSeconds = 0
+  const defaultHours = 0
+
+  const [minutes, setMinutes] = useState(defaultMinutes)
+  const [seconds, setSeconds] = useState(defaultSeconds)
+  const [hours, setHours] = useState(defaultHours)
   const [isActive, setIsActive] = useState(false)
   const audio = useMemo(() => new Audio(alarm), [])
 
@@ -81,6 +85,12 @@ export default function Timer({ isOverlay, isEditing, setIsEditing, setIsFinishe
   useEffect(() => {
     const handleAudioEnd = () => {
       setIsFinished(false)
+
+      setHours(defaultHours)
+      setMinutes(defaultMinutes)
+      setSeconds(defaultSeconds)
+
+      setIsActive(false)
     }
 
     audio.addEventListener('ended', handleAudioEnd)
@@ -88,16 +98,20 @@ export default function Timer({ isOverlay, isEditing, setIsEditing, setIsFinishe
     return () => {
       audio.removeEventListener('ended', handleAudioEnd)
     }
-  }, [audio, setIsFinished])
-
-  const parseValue = (value) => parseInt(value) || 0
+  }, [audio, setIsFinished, setHours, setMinutes, setSeconds, setIsActive])
 
   const resetTimer = () => {
     setIsActive(false)
     setIsFinished(false)
-    setHours(0)
-    setMinutes(1)
-    setSeconds(0)
+    setHours(defaultHours)
+    setMinutes(defaultMinutes)
+    setSeconds(defaultSeconds)
+  }
+
+  const parseValue = (value) => parseInt(value) || 0
+
+  if (isFinished) {
+    return null
   }
 
   return (
@@ -176,5 +190,6 @@ Timer.propTypes = {
   isOverlay: PropTypes.bool,
   isEditing: PropTypes.bool.isRequired,
   setIsEditing: PropTypes.func.isRequired,
+  isFinished: PropTypes.bool.isRequired,
   setIsFinished: PropTypes.func.isRequired
 }
