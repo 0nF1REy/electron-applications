@@ -1,7 +1,7 @@
 {
   "name": "ipc",
   "productName": "ipc",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "My Electron application description",
   "main": ".vite/build/main.js",
   "scripts": {
@@ -11,12 +11,24 @@
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\""
   },
-  "keywords": [],
+  "keywords": [
+    "electron",
+    "ipc",
+    "desktop-app"
+  ],
   "author": {
     "name": "Alan Ryan da Silva Domingues",
     "email": "alanryan619@gmail.com"
   },
   "license": "MIT",
+  "homepage": "https://github.com/0nF1REy/react-native-projects",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0nF1REy/react-native-projects.git"
+  },
+  "bugs": {
+    "url": "https://github.com/0nF1REy/react-native-projects/issues"
+  },
   "devDependencies": {
     "@electron-forge/cli": "^7.9.0",
     "@electron-forge/maker-deb": "^7.9.0",
