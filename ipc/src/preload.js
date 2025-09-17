@@ -11,3 +11,9 @@ contextBridge.exposeInMainWorld("openNewWindow", {
     ipcRenderer.send("openUrl", url);
   },
 });
+
+contextBridge.exposeInMainWorld("openFileApi", {
+  openFile: () => {
+    ipcRenderer.invoke("open-file");
+  },
+});

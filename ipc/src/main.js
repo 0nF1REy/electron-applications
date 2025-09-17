@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import path from "node:path";
 import started from "electron-squirrel-startup";
 
@@ -35,7 +35,15 @@ app.whenReady().then(() => {
       width: 800,
       height: 600,
     });
+
     newWindow.loadURL(url);
+  });
+
+  ipcMain.handle("open-file", async () => {
+    const { canceled, filePaths } = await dialog.showOpenDialog();
+    if (!canceled) {
+      return filePaths[0];
+    }
   });
 
   app.on("activate", () => {

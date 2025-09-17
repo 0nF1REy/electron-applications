@@ -15,3 +15,11 @@ submitButton.addEventListener("click", () => {
     openNewWindow.openUrl(url);
   }
 });
+
+const fileSelector = document.getElementById("file-select");
+const filePath = document.getElementById("file-path");
+
+fileSelector.addEventListener("click", async () => {
+  const path = await openFileApi.openFile();
+  filePath.innerHTML += path;
+});
