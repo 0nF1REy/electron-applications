@@ -3,11 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <title>Hello World!</title>
-
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:"
+    />
   </head>
   <body>
-    <h1>💖 Hello World!</h1>
-    <p>Welcome to your Electron application.</p>
+    <h1>Versions:</h1>
+    <h3 id="chrome">Chrome:</h3>
+    <h3 id="node">Node:</h3>
+    <h3 id="electron">Electron:</h3>
+    <input type="text" id="input-area" placeholder="Enter URL" />
+    <button id="url-submit">Submit</button>
     <script type="module" src="/src/renderer.js"></script>
   </body>
 </html>
