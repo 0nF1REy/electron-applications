@@ -8,8 +8,11 @@
     "start": "electron ."
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": {
+    "name": "Alan Ryan da Silva Domingues",
+    "email": "alanryan619@gmail.com"
+  },
+  "license": "MIT",
   "type": "commonjs",
   "dependencies": {
     "electron": "^38.0.0",
