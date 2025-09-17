@@ -5,6 +5,7 @@ body {
   margin: auto;
   max-width: 38rem;
   padding: 2rem;
+  padding-top: 0;
   background-color: #eaf0f6;
   color: #333;
 }
