@@ -46,13 +46,14 @@ NixieDisplay.propTypes = {
   seconds: PropTypes.number
 }
 
-export default function Timer({ isOverlay, isEditing, setIsEditing }) {
+export default function Timer({ isOverlay, isEditing, setIsEditing, setIsFinished }) {
   const [minutes, setMinutes] = useState(1)
   const [seconds, setSeconds] = useState(0)
   const [hours, setHours] = useState(0)
   const [isActive, setIsActive] = useState(false)
   const audio = useMemo(() => new Audio(alarm), [])
 
+  // useEffect da contagem regressiva
   useEffect(() => {
     let intervalId
     if (isActive && !isEditing) {
@@ -67,6 +68,7 @@ export default function Timer({ isOverlay, isEditing, setIsEditing }) {
           setMinutes(59)
           setSeconds(59)
         } else {
+          setIsFinished(true)
           audio.play()
           clearInterval(intervalId)
           setIsActive(false)
@@ -74,12 +76,25 @@ export default function Timer({ isOverlay, isEditing, setIsEditing }) {
       }, 1000)
     }
     return () => clearInterval(intervalId)
-  }, [isActive, seconds, minutes, hours, audio, isEditing])
+  }, [isActive, seconds, minutes, hours, audio, isEditing, setIsFinished])
+
+  useEffect(() => {
+    const handleAudioEnd = () => {
+      setIsFinished(false)
+    }
+
+    audio.addEventListener('ended', handleAudioEnd)
+
+    return () => {
+      audio.removeEventListener('ended', handleAudioEnd)
+    }
+  }, [audio, setIsFinished])
 
   const parseValue = (value) => parseInt(value) || 0
 
   const resetTimer = () => {
     setIsActive(false)
+    setIsFinished(false)
     setHours(0)
     setMinutes(1)
     setSeconds(0)
@@ -160,5 +175,6 @@ export default function Timer({ isOverlay, isEditing, setIsEditing }) {
 Timer.propTypes = {
   isOverlay: PropTypes.bool,
   isEditing: PropTypes.bool.isRequired,
-  setIsEditing: PropTypes.func.isRequired
+  setIsEditing: PropTypes.func.isRequired,
+  setIsFinished: PropTypes.func.isRequired
 }

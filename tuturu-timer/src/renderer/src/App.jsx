@@ -5,10 +5,12 @@ import Timer from './components/Timer'
 
 import bgNormal from './assets/images/background-normal.jpg'
 import bgEdit from './assets/images/background-edit.jpg'
+import bgFinished from './assets/images/background-finished.png'
 
 function App() {
   const [isOverlay, setIsOverlay] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
+  const [isFinished, setIsFinished] = useState(false)
 
   useEffect(() => {
     const toggleOverlay = () => setIsOverlay((prev) => !prev)
@@ -20,7 +22,7 @@ function App() {
     <div
       className="h-screen w-screen overflow-hidden rounded-xl border-2 border-metal-medium bg-cover bg-center transition-all duration-500"
       style={{
-        backgroundImage: `url(${isEditing ? bgEdit : bgNormal})`
+        backgroundImage: `url(${isFinished ? bgFinished : isEditing ? bgEdit : bgNormal})`
       }}
     >
       <div
@@ -37,7 +39,12 @@ function App() {
         </div>
 
         <div className="flex flex-grow items-center justify-center p-2">
-          <Timer isOverlay={isOverlay} isEditing={isEditing} setIsEditing={setIsEditing} />
+          <Timer
+            isOverlay={isOverlay}
+            isEditing={isEditing}
+            setIsEditing={setIsEditing}
+            setIsFinished={setIsFinished}
+          />
         </div>
       </div>
     </div>
