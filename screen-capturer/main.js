@@ -1,65 +1,46 @@
-const {
-  app,
-  BrowserWindow,
-  ipcMain,
-  screen,
-  desktopCapturer,
-  shell,
-  Tray,
-  Menu,
-} = require("electron");
+const { app, screen, desktopCapturer, shell, Tray, Menu } = require("electron");
 const path = require("path");
 const fs = require("fs");
 const os = require("os");
 const chokidar = require("chokidar");
 
-let mainWindow;
 let tray;
 
+// Retorna o ícone correto dependendo do sistema operacional
 function getTrayIconPath() {
-  if (process.platform === "win32") {
-    return path.join(__dirname, "assets/capture.ico");
-  } else {
-    // macOS e Linux
-    return path.join(__dirname, "assets/capture.png");
-  }
+  if (process.platform === "win32") return path.join(__dirname, "assets/capture.ico");
+  return path.join(__dirname, "assets/capture.png");
 }
 
-function createWindow() {
-  const { width: screenWidth } = screen.getPrimaryDisplay().workAreaSize;
+// Função para capturar a tela
+function captureScreen() {
+  const screenSize = screen.getPrimaryDisplay().workAreaSize;
+  desktopCapturer.getSources({
+    types: ["screen"],
+    thumbnailSize: { width: screenSize.width, height: screenSize.height },
+  }).then((sources) => {
+    const img = sources[0].thumbnail.toPNG();
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+    const fileName = `screenshot-${timestamp}.png`;
+    const filePath = path.join(os.homedir(), fileName);
 
-  mainWindow = new BrowserWindow({
-    width: 200,
-    height: 200,
-    x: screenWidth - 220,
-    y: 20,
-    alwaysOnTop: true,
-    frame: true,
-    focusable: true, // permite interação com botões
-    skipTaskbar: false,
-    show: false,
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-    },
+    fs.writeFile(filePath, img, (err) => {
+      if (!err) shell.openExternal(`file://${filePath}`);
+    });
   });
+}
 
-  mainWindow.loadFile("index.html");
-
-  // Mostra sem roubar foco
-  mainWindow.once("ready-to-show", () => {
-    mainWindow.showInactive();
-  });
-
-  // Configura tray
+// Cria o tray e define ações
+function createTray() {
   const iconPath = getTrayIconPath();
   tray = new Tray(iconPath);
 
+  // Clique direto para capturar a tela
   tray.on("click", () => {
-    if (mainWindow.isVisible()) mainWindow.hide();
-    else mainWindow.show();
+    captureScreen();
   });
 
+  // Menu de contexto do tray
   const contextMenu = Menu.buildFromTemplate([
     { label: "Quit", click: () => app.quit() },
   ]);
@@ -73,43 +54,23 @@ try {
   console.log("Electron reloader não ativado.");
 }
 
-// Observa assets externos
+// Observa assets externos para recarregar renderer
 const watcher = chokidar.watch([
   path.join(__dirname, "renderer/**/*"),
   path.join(__dirname, "assets/**/*"),
 ]);
 
 watcher.on("change", (filePath) => {
-  if (mainWindow && !mainWindow.isDestroyed()) {
-    console.log(`Arquivo alterado: ${filePath}, recarregando renderer...`);
-    mainWindow.webContents.reloadIgnoringCache();
-  }
+  console.log(`Arquivo alterado: ${filePath}`);
 });
 
-// Captura de tela
-ipcMain.on("capture-screen", async () => {
-  const screenSize = screen.getPrimaryDisplay().workAreaSize;
-  const sources = await desktopCapturer.getSources({
-    types: ["screen"],
-    thumbnailSize: { width: screenSize.width, height: screenSize.height },
-  });
-
-  const img = sources[0].thumbnail.toPNG();
-  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-  const fileName = `screenshot-${timestamp}.png`;
-  const filePath = path.join(os.homedir(), fileName);
-
-  fs.writeFile(filePath, img, (err) => {
-    if (!err) shell.openExternal(`file://${filePath}`);
-  });
-});
-
-app.whenReady().then(createWindow);
-
-app.on("activate", () => {
-  if (BrowserWindow.getAllWindows().length === 0) createWindow();
-});
+// Inicializa app
+app.whenReady().then(createTray);
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();
+});
+
+app.on("activate", () => {
+  if (!tray) createTray();
 });
