@@ -9,6 +9,7 @@ let tray;
 // Retorna o ícone correto dependendo do sistema operacional
 function getTrayIconPath() {
   if (process.platform === "win32") return path.join(__dirname, "assets/capture.ico");
+  if (process.platform === "darwin") return path.join(__dirname, "assets/capture.icns");
   return path.join(__dirname, "assets/capture.png");
 }
 
