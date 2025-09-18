@@ -1,15 +1,35 @@
 {
   "name": "screen-capturer",
+  "productName": "Screen Capturer",
   "version": "1.0.0",
   "description": "A screen capturing app using Electron",
-  "license": "ISC",
-  "author": "",
+  "keywords": [
+    "electron",
+    "desktop-app"
+  ],
+  "author": {
+    "name": "Alan Ryan da Silva Domingues",
+    "email": "alanryan619@gmail.com"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/0nF1REy/react-native-projects",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0nF1REy/react-native-projects.git"
+  },
+  "bugs": {
+    "url": "https://github.com/0nF1REy/react-native-projects/issues"
+  },
   "type": "commonjs",
   "main": "main.js",
   "scripts": {
+    "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "electron": "^38.1.2"
+    "chokidar": "^3.6.0",
+    "electron": "^38.1.2",
+    "electron-reloader": "^1.2.3",
+    "electron-window-state": "^5.0.3"
   }
 }
