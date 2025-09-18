@@ -16,6 +16,15 @@ const chokidar = require("chokidar");
 let mainWindow;
 let tray;
 
+function getTrayIconPath() {
+  if (process.platform === "win32") {
+    return path.join(__dirname, "assets/capture.ico");
+  } else {
+    // macOS e Linux
+    return path.join(__dirname, "assets/capture.png");
+  }
+}
+
 function createWindow() {
   const { width: screenWidth } = screen.getPrimaryDisplay().workAreaSize;
 
@@ -26,7 +35,7 @@ function createWindow() {
     y: 20,
     alwaysOnTop: true,
     frame: true,
-    focusable: true,
+    focusable: true, // permite interação com botões
     skipTaskbar: false,
     show: false,
     webPreferences: {
@@ -37,13 +46,13 @@ function createWindow() {
 
   mainWindow.loadFile("index.html");
 
+  // Mostra sem roubar foco
   mainWindow.once("ready-to-show", () => {
-    // Mostra sem roubar foco
     mainWindow.showInactive();
   });
 
-  // Tray
-  const iconPath = path.join(__dirname, "assets/capture.ico");
+  // Configura tray
+  const iconPath = getTrayIconPath();
   tray = new Tray(iconPath);
 
   tray.on("click", () => {
