@@ -35,6 +35,22 @@
     ],
     "directories": {
       "output": "dist"
+    },
+    "mac": {
+      "icon": "assets/capture.icns",
+      "category": "public.app-category.utilities"
+    },
+    "win": {
+      "icon": "assets/capture.ico",
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "icon": "assets/capture.png",
+      "target": [
+        "AppImage"
+      ]
     }
   },
   "devDependencies": {
