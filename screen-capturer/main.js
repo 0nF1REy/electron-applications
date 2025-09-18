@@ -39,11 +39,11 @@ function createWindow() {
 
   mainWindow.once("ready-to-show", () => {
     // Mostra sem roubar foco
-    mainWindow.showInactive(); 
+    mainWindow.showInactive();
   });
 
   // Tray
-  const iconPath = path.join(__dirname, "assets/camera.ico");
+  const iconPath = path.join(__dirname, "assets/capture.ico");
   tray = new Tray(iconPath);
 
   tray.on("click", () => {
