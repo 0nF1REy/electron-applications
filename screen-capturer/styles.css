@@ -19,14 +19,14 @@ body {
   -webkit-app-region: drag;
 }
 
-.camera-img {
+.capture-img {
   width: 120px;
   height: 120px;
   cursor: pointer;
   transition: transform 0.2s;
 }
 
-.camera-img:hover {
+.capture-img:hover {
   transform: scale(1.1);
 }
 
