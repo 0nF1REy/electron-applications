@@ -1,14 +1,29 @@
 {
   "name": "my-note-app",
-  "version": "1.0.0",
-  "description": "",
+  "productName": "My Note",
+  "version": "2.0.0",
+  "description": "A simple and elegant desktop note-taking application built with Electron. Create, edit, and organize your notes with a clean and intuitive interface.",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "electron",
+    "desktop-app"
+  ],
+  "author": {
+    "name": "Alan Ryan da Silva Domingues",
+    "email": "alanryan619@gmail.com"
+  },
   "license": "MIT",
+  "homepage": "https://github.com/0nF1REy/react-native-projects",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0nF1REy/react-native-projects.git"
+  },
+  "bugs": {
+    "url": "https://github.com/0nF1REy/react-native-projects/issues"
+  },
   "type": "commonjs",
   "devDependencies": {
     "electron": "^38.0.0"
