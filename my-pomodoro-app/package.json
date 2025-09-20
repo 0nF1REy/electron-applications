@@ -1,11 +1,27 @@
 {
   "name": "my-pomodoro-app",
-  "version": "1.0.0",
-  "description": "Um app Pomodoro feito com React + Electron",
-  "author": "Alan Ryan da Silva Domingues",
+  "productName": "My Pomodoro",
+  "version": "2.0.0",
+  "description": "A productivity-focused Pomodoro timer desktop application built with React and Electron.",
+  "keywords": [
+    "electron",
+    "desktop-app"
+  ],
+  "author": {
+    "name": "Alan Ryan da Silva Domingues",
+    "email": "alanryan619@gmail.com"
+  },
+  "license": "MIT",
   "main": "main.js",
   "private": true,
-  "homepage": ".",
+  "homepage": "https://github.com/0nF1REy/react-native-projects",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0nF1REy/react-native-projects.git"
+  },
+  "bugs": {
+    "url": "https://github.com/0nF1REy/react-native-projects/issues"
+  },
   "dependencies": {
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.8.0",
@@ -27,7 +43,7 @@
     "dist": "electron-builder"
   },
   "build": {
-    "appId": "com.my-electron-app",
+    "appId": "com.onf1rey.mypomodoroapp",
     "productName": "My Pomodoro",
     "files": [
       "build/**/*",
