@@ -131,14 +131,6 @@ body {
   margin-left: 10px;
 }
 
-.main .sidebar .directory-list .list-item svg {
-  position: sticky;
-  flex-shrink: 0;
-  left: 0px;
-  fill: var(--c-text-medium);
-  transition: fill 0.2s ease-in-out;
-}
-
 .main .sidebar .directory-list .list-item.directory {
   font-weight: bold;
   color: var(--c-text-light);
@@ -159,7 +151,7 @@ body {
 }
 
 .main .sidebar .directory-list .list-item:hover {
-  background-color: rgba(255, 225, 0, 0.1);
+  background-color: rgba(0, 128, 255, 0.1);
 }
 
 .main .sidebar .directory-list .list-item:hover svg {
