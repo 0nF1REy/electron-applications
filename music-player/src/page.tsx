@@ -82,7 +82,8 @@ const Home: React.FC = React.memo(() => {
         await audio_element_ref.current.play();
         set_IsPlaying(true);
 
-        set_current_audio(path.split(os_sep()).at(-1));
+        const path_parts = path.split(os_sep());
+        set_current_audio(path_parts[path_parts.length - 1]);
 
         audio_element_ref.current.ontimeupdate = () => {
           const current_time = audio_element_ref.current.currentTime;
