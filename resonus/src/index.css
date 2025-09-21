@@ -224,7 +224,12 @@ body {
   font-weight: bold;
 }
 
-.main .content .wrapper .controls svg:hover {
+.main .content .wrapper .controls svg:not(.disabled):hover {
   transform: scale(1.1);
   filter: drop-shadow(0 0 5px var(--c-glow-blue));
+}
+
+.main .content .wrapper .controls svg.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }

@@ -86,6 +86,7 @@ const Home: React.FC = React.memo(() => {
         set_current_audio(path_parts[path_parts.length - 1]);
 
         audio_element_ref.current.ontimeupdate = () => {
+          if (!audio_element_ref.current) return;
           const current_time = audio_element_ref.current.currentTime;
           const secs =
             current_time % 60 < 10
@@ -96,11 +97,13 @@ const Home: React.FC = React.memo(() => {
               ? "0" + Math.floor(current_time / 60)
               : Math.floor(current_time / 60);
           set_audio_time(mins + ":" + secs);
-          progress_cont_ref.current.style.width =
-            (audio_element_ref.current.currentTime /
-              audio_element_ref.current.duration) *
-              100 +
-            "%";
+          if (progress_cont_ref.current) {
+            progress_cont_ref.current.style.width =
+              (audio_element_ref.current.currentTime /
+                audio_element_ref.current.duration) *
+                100 +
+              "%";
+          }
         };
 
         const duration = audio_element_ref.current.duration;
@@ -126,19 +129,11 @@ const Home: React.FC = React.memo(() => {
 
         const frequencyData = new Uint8Array(analyzer.frequencyBinCount);
 
-        // const update_source = () => {
-        //     analyzer.getByteFrequencyData(frequencyData)
-        //     const reduced = frequencyData.reduce((acc: any, v) => acc + v, 0) / frequencyData.length
-        //     const clipped_data = reduced / 255 * 100 + 1;
-        //     (visualizer_ref.current.querySelector('.bar') as HTMLElement).style.height = clipped_data + '%'
-
-        //     requestAnimationFrame(update_source)
-        // }
         const update_source = () => {
+          if (!visualizer_ref.current) return;
           analyzer.getByteFrequencyData(frequencyData);
           visualizer_ref.current.innerHTML = "";
           for (let index = 0; index < frequencyData.length; index++) {
-            // for (let index = 0; index < frequencyData.length; index += 30) {
             const freq = (frequencyData[index] / 255) * 100 + 1;
             const bar = document.createElement("div");
             bar.className = "bar";
@@ -152,43 +147,39 @@ const Home: React.FC = React.memo(() => {
       };
       fr.readAsDataURL(file);
     },
-    [
-      audio_element_ref.current,
-      progress_cont_ref.current,
-      visualizer_ref.current,
-    ]
+    [progress_cont_ref, visualizer_ref]
   );
 
-  const handle_play_pause = React.useCallback(
-    (state: boolean) => {
-      state
-        ? audio_element_ref.current.play()
-        : audio_element_ref.current.pause();
-      set_IsPlaying(state);
-    },
-    [audio_element_ref.current]
-  );
+  const handle_play_pause = React.useCallback((state: boolean) => {
+    if (!audio_element_ref.current) return;
+
+    state
+      ? audio_element_ref.current.play()
+      : audio_element_ref.current.pause();
+    set_IsPlaying(state);
+  }, []);
 
   const handle_stop = React.useCallback(() => {
+    if (!audio_element_ref.current) return;
+
     audio_element_ref.current.pause();
     audio_element_ref.current.currentTime = 0;
     set_IsPlaying(false);
-  }, [audio_element_ref.current]);
+  }, []);
 
   const handle_seek = React.useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
       e.stopPropagation();
       if (audio_element_ref.current == null) return;
-      console.log(e);
+
       const seeker_cont_rect = e.currentTarget.getBoundingClientRect();
       const distance = e.clientX - seeker_cont_rect.x;
-      console.log("distance", distance);
       const perc_moved = distance / seeker_cont_rect.width;
       const audio_el_duration_perc =
         perc_moved * audio_element_ref.current.duration;
       audio_element_ref.current.currentTime = audio_el_duration_perc;
     },
-    [audio_element_ref.current]
+    []
   );
 
   const handle_content_menu = React.useCallback(() => {
@@ -209,7 +200,6 @@ const Home: React.FC = React.memo(() => {
   }, []);
 
   return (
-    // <div ref={main_cont_ref} className="main">
     <>
       <div className="header">Resonus</div>
       <div ref={main_cont_ref} className="main" onMouseDown={handleMouseDown}>
@@ -222,6 +212,7 @@ const Home: React.FC = React.memo(() => {
           <div className="pagination">
             {current_path.split(os_sep()).map((p, i) => (
               <span
+                key={i}
                 className="path"
                 onClick={() =>
                   handleListDir(
@@ -267,9 +258,7 @@ const Home: React.FC = React.memo(() => {
         </div>
         <div className="content">
           <div className="wrapper">
-            <div className="visualizer" ref={visualizer_ref}>
-              <div className="bar"></div>
-            </div>
+            <div className="visualizer" ref={visualizer_ref}></div>
             <div className="current-audio" onClick={handle_seek}>
               {current_audio}
             </div>
@@ -283,24 +272,24 @@ const Home: React.FC = React.memo(() => {
               </span>
               {isPlaying ? (
                 <PauseIcon
+                  className={!current_audio ? "disabled" : ""}
                   onClick={() => handle_play_pause(false)}
                   width={20}
                   height={20}
-                  fill={"--tint-blue"}
                 />
               ) : (
                 <PlayIcon
+                  className={!current_audio ? "disabled" : ""}
                   onClick={() => handle_play_pause(true)}
                   width={20}
                   height={20}
-                  fill={"--tint-blue"}
                 />
               )}
               <StopIcon
+                className={!current_audio ? "disabled" : ""}
                 onClick={handle_stop}
                 width={20}
                 height={20}
-                fill={"--tint-blue"}
               />
             </div>
           </div>
