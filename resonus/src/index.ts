@@ -42,12 +42,12 @@ if (isMac) {
   });
 }
 
-// Menu File
+// Menu Arquivo
 template.push({
-  label: "File",
+  label: "Arquivo",
   submenu: [
     {
-      label: "Go Home",
+      label: "Pasta Inicial",
       click: () => {
         mainWindow.webContents.send("new-folder-update-menu", get_dir());
       },
@@ -56,9 +56,9 @@ template.push({
   ],
 });
 
-// Menu Edit
+// Menu Editar
 template.push({
-  label: "Edit",
+  label: "Editar",
   submenu: [
     { role: "undo" },
     { role: "redo" },
@@ -85,9 +85,9 @@ template.push({
   ],
 });
 
-// Menu View
+// Menu Exibir
 template.push({
-  label: "View",
+  label: "Exibir",
   submenu: [
     { role: "reload" },
     { role: "forceReload" },
@@ -101,9 +101,9 @@ template.push({
   ],
 });
 
-// Menu Window
+// Menu Janela
 template.push({
-  label: "Window",
+  label: "Janela",
   submenu: [
     { role: "minimize" },
     { role: "zoom" },
@@ -118,12 +118,12 @@ template.push({
   ],
 });
 
-// Menu Helpmc
+// Menu Ajuda
 template.push({
   role: "help",
   submenu: [
     {
-      label: "Learn More",
+      label: "Saiba Mais",
       click: async () => {
         await shell.openExternal("https://electronjs.org");
       },
@@ -192,7 +192,7 @@ const createWindow = (): void => {
   ipcMain.on("context-menu", (event, path) => {
     const template: MenuItemConstructorOptions[] = [
       {
-        label: "Go Home",
+        label: "Pasta Inicial",
         click: () => {
           event.sender.send("new-folder-update", get_dir());
           // mainWindow.webContents.send('event-name', [])
@@ -200,7 +200,7 @@ const createWindow = (): void => {
       },
       { type: "separator" },
       {
-        label: "Refresh",
+        label: "Atualizar",
         click: () => {
           event.sender.send("new-folder-update", get_dir(path));
           // mainWindow.webContents.send('event-name', [])

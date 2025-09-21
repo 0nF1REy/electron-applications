@@ -259,7 +259,7 @@ const Home: React.FC = React.memo(() => {
             {dir.length == 0 && (
               <div className={"list-item"}>
                 <span>
-                  <em>Directory is empty</em>
+                  <em>Este diretório está vazio</em>
                 </span>
               </div>
             )}

@@ -146,10 +146,6 @@ body {
   padding-left: 20px;
 }
 
-.main .sidebar .directory-list .list-item:not(.directory):hover {
-  background-color: rgba(255, 225, 0, 0.1);
-}
-
 .main .sidebar .directory-list .list-item:hover {
   background-color: rgba(0, 128, 255, 0.1);
 }
@@ -176,9 +172,9 @@ body {
 }
 
 .main .content .wrapper .visualizer .bar {
-  width: 50%;
+  flex-grow: 1;
   background-color: var(--c-accent-blue);
-  border-radius: 10px 10px 0px 0px;
+  border-radius: 2px 2px 0px 0px;
 }
 
 .main .content .wrapper .controls {
@@ -195,6 +191,7 @@ body {
 .main .content .wrapper .controls svg {
   cursor: pointer;
   fill: var(--c-accent-blue);
+  transition: all 0.2s ease-in-out;
 }
 
 .main .content .progress {
@@ -225,4 +222,9 @@ body {
 .current-playing {
   color: var(--c-accent-blue);
   font-weight: bold;
+}
+
+.main .content .wrapper .controls svg:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 5px var(--c-glow-blue));
 }

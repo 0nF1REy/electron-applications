@@ -1,8 +1,8 @@
 {
-  "name": "music-player",
-  "productName": "Music Player",
-  "version": "2.0.0",
-  "description": "My Electron application description",
+  "name": "resonus",
+  "productName": "Resonus",
+  "version": "3.0.0",
+  "description": "Resonus: Where Sound (Sonus) meets Resonance. An immersive local music player for your personal collection, featuring a dynamic audio visualizer and a modern, urban-inspired design",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
