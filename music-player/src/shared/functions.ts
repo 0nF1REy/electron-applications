@@ -16,8 +16,7 @@ export const os_sep = () => {
 
 export const sort_dir = (a: TDirStructure, b: TDirStructure) => {
   if (a.isDir !== b.isDir) {
-    // @ts-ignore
-    return b.isDir - a.isDir;
+    return Number(b.isDir) - Number(a.isDir);
   }
   return a.name.localeCompare(b.name);
 };
