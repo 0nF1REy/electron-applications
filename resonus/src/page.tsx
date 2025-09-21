@@ -211,7 +211,7 @@ const Home: React.FC = React.memo(() => {
   return (
     // <div ref={main_cont_ref} className="main">
     <>
-      <div className="header">Audio Player</div>
+      <div className="header">Resonus</div>
       <div ref={main_cont_ref} className="main" onMouseDown={handleMouseDown}>
         <div
           className="sidebar"
