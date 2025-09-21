@@ -1,18 +1,13 @@
 import React from "react";
-// @ts-ignore
 import { ReactComponent as FolderIcon } from "../assets/folder.svg";
-// @ts-ignore
 import { ReactComponent as PlayIcon } from "../assets/play.svg";
-// @ts-ignore
 import { ReactComponent as PauseIcon } from "../assets/pause.svg";
-// @ts-ignore
 import { ReactComponent as StopIcon } from "../assets/stop.svg";
 
 import { TDirStructure } from "./shared/types";
 import { join_path, os_sep, sort_dir } from "./shared/functions";
-import { ipcRenderer } from "electron";
 
-const Home = React.memo((props: any) => {
+const Home: React.FC = React.memo(() => {
   const main_cont_ref = React.useRef<HTMLDivElement | null>(null);
   const progress_cont_ref = React.useRef<HTMLDivElement | null>(null);
   const visualizer_ref = React.useRef<HTMLDivElement | null>(null);
@@ -29,9 +24,9 @@ const Home = React.memo((props: any) => {
       e.stopPropagation();
       console.log("e target", e.currentTarget, e.target);
       if (!(e.target as HTMLElement).classList.contains("resize")) {
-        main_cont_ref.current.onmousemove = (e) => null;
-        main_cont_ref.current.onmouseup = (e) => null;
-        return null;
+        main_cont_ref.current.onmousemove = null;
+        main_cont_ref.current.onmouseup = null;
+        return;
       }
 
       main_cont_ref.current.onmousemove = (e) => handleMouseMove(e);
@@ -56,8 +51,8 @@ const Home = React.memo((props: any) => {
     (e: MouseEvent) => {
       console.log("e", e);
       e.stopPropagation();
-      main_cont_ref.current.onmousemove = (e) => null;
-      main_cont_ref.current.onmouseup = (e) => null;
+      main_cont_ref.current.onmousemove = null;
+      main_cont_ref.current.onmouseup = null;
     },
     [main_cont_ref.current]
   );
@@ -180,9 +175,9 @@ const Home = React.memo((props: any) => {
   }, [audio_element_ref.current]);
 
   const handle_seek = React.useCallback(
-    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
       e.stopPropagation();
-      if (audio_element_ref.current == null) return null;
+      if (audio_element_ref.current == null) return;
       console.log(e);
       const seeker_cont_rect = e.currentTarget.getBoundingClientRect();
       const distance = e.clientX - seeker_cont_rect.x;
@@ -196,13 +191,16 @@ const Home = React.memo((props: any) => {
   );
 
   const handle_content_menu = React.useCallback(() => {
-    window.electron.open_context_menu(current_path, (dir_content: any) => {
-      console.log("callback works", dir_content);
-      set_current_path(
-        dir_content.length == 0 ? current_path : dir_content[0].parentPath
-      );
-      set_dir(dir_content.sort(sort_dir));
-    });
+    window.electron.open_context_menu(
+      current_path,
+      (dir_content: TDirStructure[]) => {
+        console.log("callback works", dir_content);
+        set_current_path(
+          dir_content.length == 0 ? current_path : dir_content[0].parentPath
+        );
+        set_dir(dir_content.sort(sort_dir));
+      }
+    );
   }, [current_path]);
 
   React.useLayoutEffect(() => {
