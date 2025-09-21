@@ -2,6 +2,7 @@
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 
 import { contextBridge, ipcRenderer } from "electron";
+import { TDirStructure } from "./shared/types";
 
 ipcRenderer.on("new-folder-update-menu", (event, data) => {
   console.log("data update from menu", data);
@@ -24,7 +25,10 @@ const preload = {
     // ipcRenderer.emit
     // ipcRenderer
   },
-  open_context_menu: (path: string, callback_fn: Function) => {
+  open_context_menu: (
+    path: string,
+    callback_fn: (data: TDirStructure[]) => void
+  ) => {
     ipcRenderer.send("context-menu", path);
     ipcRenderer.on("new-folder-update", (event, data) => {
       console.log("data update", data);
