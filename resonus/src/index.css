@@ -79,6 +79,11 @@ body {
 .main .sidebar .pagination .path {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  max-width: 150px;
 }
 
 .main .sidebar .pagination .path:hover {
@@ -131,6 +136,10 @@ body {
 
 .main .sidebar .directory-list .list-item span {
   margin-left: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 1;
 }
 
 .main .sidebar .directory-list .list-item.directory {
