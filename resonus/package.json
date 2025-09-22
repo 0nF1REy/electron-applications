@@ -1,7 +1,7 @@
 {
   "name": "resonus",
   "productName": "Resonus",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "Resonus: Where Sound (Sonus) meets Resonance. An immersive local music player for your personal collection, featuring a dynamic audio visualizer and a modern, urban-inspired design",
   "main": ".webpack/main",
   "scripts": {
@@ -9,7 +9,8 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "eslint --ext .ts,.tsx ."
+    "lint": "eslint --ext .ts,.tsx .",
+    "build": "electron-builder"
   },
   "keywords": [
     "electron",
@@ -30,6 +31,32 @@
     "url": "https://github.com/0nF1REy/react-native-projects/issues"
   },
   "license": "MIT",
+  "build": {
+    "appId": "com.onf1rey.resonus",
+    "productName": "Resonus",
+    "files": [
+      "**/*"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "mac": {
+      "icon": "assets/resonus-isotipo.icns",
+      "category": "public.app-category.utilities"
+    },
+    "win": {
+      "icon": "assets/resonus-isotipo.ico",
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "icon": "assets/resonus-isotipo.png",
+      "target": [
+        "AppImage"
+      ]
+    }
+  },
   "devDependencies": {
     "@electron-forge/cli": "^7.9.0",
     "@electron-forge/maker-deb": "^7.9.0",
@@ -48,6 +75,7 @@
     "@vercel/webpack-asset-relocator-loader": "^1.7.3",
     "css-loader": "^6.11.0",
     "electron": "38.1.2",
+    "electron-builder": "^26.0.12",
     "eslint": "^8.57.1",
     "eslint-plugin-import": "^2.32.0",
     "fork-ts-checker-webpack-plugin": "^7.3.0",
