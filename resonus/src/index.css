@@ -60,6 +60,8 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .main .sidebar .pagination {
