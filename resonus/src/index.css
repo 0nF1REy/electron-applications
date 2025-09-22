@@ -125,13 +125,13 @@ body {
 }
 
 .main .sidebar .directory-list .list-item {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr;
   align-items: center;
   cursor: pointer;
-  white-space: nowrap;
-  text-wrap: nowrap;
   position: relative;
   transition: all 0.2s ease-in-out;
+  overflow: hidden;
 }
 
 .main .sidebar .directory-list .list-item span {
@@ -139,7 +139,6 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  flex-shrink: 1;
 }
 
 .main .sidebar .directory-list .list-item.directory {
