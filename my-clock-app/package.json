@@ -1,14 +1,29 @@
 {
   "name": "my-clock-app",
-  "version": "1.0.0",
-  "description": "Relógio com tsParticles usando Electron",
+  "productName": "My Clock App",
+  "version": "2.0.0",
+  "description": "A simple yet elegant desktop clock application developed with Electron and tsParticles, featuring a modern interface and real-time updates",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "electron",
+    "desktop-app"
+  ],
+  "author": {
+    "name": "Alan Ryan da Silva Domingues",
+    "email": "alanryan619@gmail.com"
+  },
+  "homepage": "https://github.com/0nF1REy/react-native-projects",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0nF1REy/react-native-projects.git"
+  },
+  "bugs": {
+    "url": "https://github.com/0nF1REy/react-native-projects/issues"
+  },
+  "license": "MIT",
   "type": "commonjs",
   "devDependencies": {
     "electron": "^37.4.0",
