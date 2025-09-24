@@ -1,0 +1,38 @@
+div {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+  background-color: #f4f0e6;
+  font-family: "Courier New", Courier, monospace;
+}
+
+div div {
+  border: 2px solid #8b5e3c;
+  border-radius: 12px;
+  padding: 10px;
+  opacity: 60%;
+  text-align: center;
+  background-color: #fff8f0;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+div div img {
+  border-radius: 8px;
+  filter: sepia(0.4) contrast(1.1);
+}
+
+div div.active {
+  opacity: 100%;
+  border: 3px solid #d4af37;
+  box-shadow: 0 0 20px #d4af37, inset 0 0 10px rgba(212, 175, 55, 0.4);
+  transform: scale(1.05) rotate(-1deg);
+}
+
+div div:hover {
+  cursor: pointer;
+  transform: scale(1.03);
+  box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.3);
+}
