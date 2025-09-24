@@ -1,38 +1,101 @@
-div {
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  gap: 20px;
+/* Reset Básico e Estilo Global */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  background-color: #1a1a2e;
+  color: #e0e0e0;
+  margin: 0;
   padding: 20px;
-  justify-content: center;
-  background-color: #f4f0e6;
-  font-family: "Courier New", Courier, monospace;
-}
-
-div div {
-  border: 2px solid #8b5e3c;
-  border-radius: 12px;
-  padding: 10px;
-  opacity: 60%;
   text-align: center;
-  background-color: #fff8f0;
-  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease-in-out;
 }
 
-div div img {
-  border-radius: 8px;
-  filter: sepia(0.4) contrast(1.1);
+h1 {
+  color: #fca311;
+  margin-bottom: 25px;
 }
 
-div div.active {
-  opacity: 100%;
-  border: 3px solid #d4af37;
-  box-shadow: 0 0 20px #d4af37, inset 0 0 10px rgba(212, 175, 55, 0.4);
-  transform: scale(1.05) rotate(-1deg);
+/* Estilo do Contêiner das Abas */
+.tabs {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
 
-div div:hover {
+/* Estilo dos Botões das Abas */
+.tab-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
-  transform: scale(1.03);
-  box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.3);
+  border: 2px solid #1f2833;
+  background-color: #45a29e;
+  color: #fff;
+  border-radius: 8px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.tab-button:hover {
+  background-color: #66fcf1;
+  color: #0b0c10;
+}
+
+.tab-button.active {
+  background-color: #fca311;
+  color: #1a1a2e;
+  border-color: #fca311;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(252, 163, 17, 0.4);
+}
+
+/* Estilo da Grade de Sons */
+.sound-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 0 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Estilo de Cada Item de Som */
+.sound-item {
+  position: relative;
+  border: 3px solid #45a29e;
+  border-radius: 12px;
+  background-color: #0b0c10;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.sound-item:hover {
+  transform: scale(1.05);
+  border-color: #66fcf1;
+}
+
+.sound-item.active {
+  transform: scale(1.1);
+  border-color: #fca311;
+  box-shadow: 0 0 25px rgba(252, 163, 17, 0.7);
+}
+
+.sound-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sound-item kbd {
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 5px;
+  color: #fff;
+  font-size: 1.5em;
+  font-weight: 700;
+  padding: 5px 10px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
