@@ -22,13 +22,13 @@
     "name": "Alan Ryan da Silva Domingues",
     "email": "alanryan619@gmail.com"
   },
-  "homepage": "https://github.com/0nF1REy/react-native-projects",
+  "homepage": "https://github.com/0nF1REy/electron",
   "repository": {
     "type": "git",
-    "url": "https://github.com/0nF1REy/react-native-projects.git"
+    "url": "https://github.com/0nF1REy/electron.git"
   },
   "bugs": {
-    "url": "https://github.com/0nF1REy/react-native-projects/issues"
+    "url": "https://github.com/0nF1REy/electron/issues"
   },
   "license": "MIT",
   "build": {

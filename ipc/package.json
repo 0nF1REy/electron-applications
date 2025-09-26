@@ -21,13 +21,13 @@
     "email": "alanryan619@gmail.com"
   },
   "license": "MIT",
-  "homepage": "https://github.com/0nF1REy/react-native-projects",
+  "homepage": "https://github.com/0nF1REy/electron",
   "repository": {
     "type": "git",
-    "url": "https://github.com/0nF1REy/react-native-projects.git"
+    "url": "https://github.com/0nF1REy/electron.git"
   },
   "bugs": {
-    "url": "https://github.com/0nF1REy/react-native-projects/issues"
+    "url": "https://github.com/0nF1REy/electron/issues"
   },
   "devDependencies": {
     "@electron-forge/cli": "^7.9.0",

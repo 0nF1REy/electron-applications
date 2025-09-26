@@ -14,13 +14,13 @@
   "license": "MIT",
   "main": "main.js",
   "private": true,
-  "homepage": "https://github.com/0nF1REy/react-native-projects",
+  "homepage": "https://github.com/0nF1REy/electron",
   "repository": {
     "type": "git",
-    "url": "https://github.com/0nF1REy/react-native-projects.git"
+    "url": "https://github.com/0nF1REy/electron.git"
   },
   "bugs": {
-    "url": "https://github.com/0nF1REy/react-native-projects/issues"
+    "url": "https://github.com/0nF1REy/electron/issues"
   },
   "dependencies": {
     "@testing-library/dom": "^10.4.1",
