@@ -1,13 +1,26 @@
 {
   "name": "meu-hello-electron",
-  "version": "1.0.0",
+  "productName": "Hello Electron",
+  "version": "2.0.0",
   "description": "Meu primeiro app Electron",
   "main": "main.js",
+  "keywords": [
+    "electron",
+    "desktop-app"
+  ],
   "author": {
     "name": "Alan Ryan da Silva Domingues",
     "email": "alanryan619@gmail.com"
   },
-  "homepage": "https://github.com/0nF1REy",
+  "license": "MIT",
+  "homepage": "https://github.com/0nF1REy/electron",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0nF1REy/electron.git"
+  },
+  "bugs": {
+    "url": "https://github.com/0nF1REy/electron/issues"
+  },
   "scripts": {
     "start": "electron .",
     "build": "electron-builder -w -l"
@@ -26,7 +39,9 @@
     "files": [
       "**/*"
     ],
-    "extraResources": ["node_modules"],
+    "extraResources": [
+      "node_modules"
+    ],
     "mac": {
       "category": "public.app-category.DEVELOPMENT_TOOLS"
     },
@@ -34,14 +49,21 @@
       "target": [
         {
           "target": "nsis",
-          "arch": ["x64", "ia32"]
+          "arch": [
+            "x64",
+            "ia32"
+          ]
         }
       ],
       "icon": "assets/icon.png"
     },
     "linux": {
       "category": "Development",
-      "target": ["deb", "rpm", "AppImage"],
+      "target": [
+        "deb",
+        "rpm",
+        "AppImage"
+      ],
       "maintainer": "Alan Ryan da Silva Domingues <alanryan619@gmail.com>",
       "icon": "assets/icon.png"
     }
