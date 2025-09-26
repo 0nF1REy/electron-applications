@@ -18,25 +18,25 @@ document.addEventListener("DOMContentLoaded", () => {
         {
           id: "za-warudo",
           key: "E",
-          image: "assets/images/animes/za-warudo.png",
+          image: "assets/images/animes/za-warudo.jpg",
           sound: "assets/sounds/animes/za-warudo.mp3",
         },
         {
           id: "nani",
           key: "R",
-          image: "assets/images/animes/nani.png",
+          image: "assets/images/animes/nani.jpg",
           sound: "assets/sounds/animes/nani.mp3",
         },
         {
           id: "pegasus-ryu-sei-ken",
           key: "T",
-          image: "assets/images/animes/pegasus-ryu-sei-ken.png",
+          image: "assets/images/animes/pegasus-ryu-sei-ken.jpg",
           sound: "assets/sounds/animes/pegasus-ryu-sei-ken.mp3",
         },
         {
           id: "ciaossu",
           key: "Y",
-          image: "assets/images/animes/ciaossu.png",
+          image: "assets/images/animes/ciaossu.jpg",
           sound: "assets/sounds/animes/ciaossu.mp3",
         },
       ],
@@ -47,19 +47,19 @@ document.addEventListener("DOMContentLoaded", () => {
         {
           id: "pacman",
           key: "Q",
-          image: "assets/images/games/pacman.png",
+          image: "assets/images/games/pacman.jpg",
           sound: "assets/sounds/games/pacman.mp3",
         },
         {
           id: "toasty",
           key: "W",
-          image: "assets/images/games/toasty.png",
+          image: "assets/images/games/toasty.jpg",
           sound: "assets/sounds/games/toasty.mp3",
         },
         {
           id: "mario",
           key: "E",
-          image: "assets/images/games/mario.png",
+          image: "assets/images/games/mario.jpg",
           sound: "assets/sounds/games/mario.mp3",
         },
         {
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
         {
           id: "hadouken",
           key: "T",
-          image: "assets/images/games/hadouken.png",
+          image: "assets/images/games/hadouken.jpg",
           sound: "assets/sounds/games/hadouken.mp3",
         },
         {
