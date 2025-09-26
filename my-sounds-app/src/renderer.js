@@ -1,24 +1,65 @@
 document.addEventListener("DOMContentLoaded", () => {
   const soundPacks = {
-    gto: {
-      name: "Great Teacher Onizuka",
+    animes: {
+      name: "Animes",
       sounds: [
         {
-          id: "gto-1",
+          id: "tururu",
           key: "Q",
-          image: "assets/images/gto/onizuka-bike.jpg",
-          sound: "assets/sounds/gto/onizuka-great.wav",
+          image: "assets/images/animes/tuturu.png",
+          sound: "assets/sounds/animes/tuturu.mp3",
         },
         {
-          id: "gto-2",
+          id: "wow",
           key: "W",
-          image: "assets/images/gto/onizuka-crest.jpg",
-          sound: "assets/sounds/gto/onizuka-yoroshiku.mp3",
+          image: "assets/images/animes/wow.png",
+          sound: "assets/sounds/animes/wow.mp3",
+        },
+        {
+          id: "za-warudo",
+          key: "E",
+          image: "assets/images/animes/za-warudo.png",
+          sound: "assets/sounds/animes/za-warudo.mp3",
+        },
+        {
+          id: "nani",
+          key: "R",
+          image: "assets/images/animes/nani.png",
+          sound: "assets/sounds/animes/nani.mp3",
+        },
+        {
+          id: "pegasus-ryu-sei-ken",
+          key: "T",
+          image: "assets/images/animes/pegasus-ryu-sei-ken.png",
+          sound: "assets/sounds/animes/pegasus-ryu-sei-ken.mp3",
+        },
+        {
+          id: "ciaossu",
+          key: "Y",
+          image: "assets/images/animes/ciaossu.png",
+          sound: "assets/sounds/animes/ciaossu.mp3",
         },
       ],
     },
-    naruto: {
-      name: "Naruto",
+    games: {
+      name: "Games",
+      sounds: [
+        {
+          id: "naruto-1",
+          key: "Q",
+          image: "assets/images/naruto/rasengan.jpg",
+          sound: "assets/sounds/naruto/rasengan.mp3",
+        },
+        {
+          id: "naruto-2",
+          key: "W",
+          image: "assets/images/naruto/chidori.jpg",
+          sound: "assets/sounds/naruto/chidori.mp3",
+        },
+      ],
+    },
+    others: {
+      name: "Outros",
       sounds: [
         {
           id: "naruto-1",
