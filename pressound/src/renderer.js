@@ -116,6 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabsContainer = document.getElementById("tabs-container");
   const soundGridContainer = document.getElementById("sound-grid-container");
   let activePackId = Object.keys(soundPacks)[0];
+  let currentAudio = null;
 
   const createTabButton = (packId, pack) => {
     const button = document.createElement("button");
@@ -149,17 +150,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const playSound = (soundData) => {
     if (!soundData) return;
-
     // Tenta usar a API do Electron primeiro, se não funcionar usa Audio nativo
     if (window.electronAPI && window.electronAPI.playSound) {
       window.electronAPI.playSound(soundData.sound);
     } else {
-      // Fallback para Audio nativo
-      const audio = new Audio(soundData.sound);
-      audio.currentTime = 0;
-      audio.play().catch(error => {
-        console.error('Erro ao tocar som:', error);
-      });
+      // Fallback para Audio nativo - para o áudio atual primeiro
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+      }
+
+      currentAudio = new Audio(soundData.sound);
+      currentAudio.currentTime = 0;
+      currentAudio.play().catch((error) => {});
     }
 
     const soundElement = document.querySelector(

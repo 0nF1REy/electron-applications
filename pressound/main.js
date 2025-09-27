@@ -3,6 +3,7 @@ const path = require("path");
 const player = require("play-sound")();
 
 const audioCache = {};
+let currentAudio = null;
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -20,21 +21,44 @@ const createWindow = () => {
 
 // Evento de tocar som via IPC
 ipcMain.on("play-sound", (event, soundPath) => {
-  console.log('Recebido pedido para tocar som:', soundPath);
-  const fullPath = path.join(__dirname, "src", soundPath);
-  console.log('Caminho completo:', fullPath);
-
-  if (audioCache[soundPath]) {
-    audioCache[soundPath].kill();
+  
+  // Para o áudio atual se estiver tocando
+  if (currentAudio) {
+    currentAudio.kill();
+    currentAudio = null;
   }
 
-  audioCache[soundPath] = player.play(fullPath, (err) => {
-    if (err) {
-      console.error("Erro ao tocar som:", err);
-    } else {
-      console.log('Som tocado com sucesso:', soundPath);
+  // Para qualquer áudio em cache
+  Object.keys(audioCache).forEach(key => {
+    if (audioCache[key]) {
+      audioCache[key].kill();
+      audioCache[key] = null;
     }
-    audioCache[soundPath] = null;
+  });
+
+  const fullPath = path.join(__dirname, "src", soundPath);
+
+  currentAudio = player.play(fullPath, (err) => {
+    currentAudio = null;
+  });
+  
+  audioCache[soundPath] = currentAudio;
+});
+
+// Evento para parar som via IPC
+ipcMain.on("stop-sound", (event) => {
+  
+  if (currentAudio) {
+    currentAudio.kill();
+    currentAudio = null;
+  }
+
+  // Para qualquer áudio em cache
+  Object.keys(audioCache).forEach(key => {
+    if (audioCache[key]) {
+      audioCache[key].kill();
+      audioCache[key] = null;
+    }
   });
 });
 
