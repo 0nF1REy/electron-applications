@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
       name: "Animes",
       sounds: [
         {
-          id: "tururu",
+          id: "tuturu",
           key: "Q",
           image: "assets/images/animes/tuturu.png",
           sound: "assets/sounds/animes/tuturu.mp3",
@@ -115,98 +115,97 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const tabsContainer = document.getElementById("tabs-container");
   const soundGridContainer = document.getElementById("sound-grid-container");
-
-  let currentlyPlaying = null;
   let activePackId = Object.keys(soundPacks)[0];
+
+  const createTabButton = (packId, pack) => {
+    const button = document.createElement("button");
+    button.className = `tab-button ${packId === activePackId ? "active" : ""}`;
+    button.textContent = pack.name;
+    button.dataset.packId = packId;
+    return button;
+  };
+
+  const createSoundItem = (sound) => {
+    const item = document.createElement("div");
+    item.className = "sound-item";
+    item.dataset.soundId = sound.id;
+    item.innerHTML = `<img src="${sound.image}" alt="${sound.id}" /><kbd>${sound.key}</kbd>`;
+    return item;
+  };
 
   const renderTabs = () => {
     tabsContainer.innerHTML = "";
-    Object.keys(soundPacks).forEach((packId) => {
-      const pack = soundPacks[packId];
-      const tabButton = document.createElement("button");
-      tabButton.className = "tab-button";
-      tabButton.textContent = pack.name;
-      tabButton.dataset.packId = packId;
-      if (packId === activePackId) {
-        tabButton.classList.add("active");
-      }
-      tabsContainer.appendChild(tabButton);
+    Object.entries(soundPacks).forEach(([packId, pack]) => {
+      tabsContainer.appendChild(createTabButton(packId, pack));
     });
   };
 
   const renderSoundGrid = () => {
     soundGridContainer.innerHTML = "";
-    const activePack = soundPacks[activePackId];
-    if (!activePack) return;
-
-    activePack.sounds.forEach((sound) => {
-      const soundItem = document.createElement("div");
-      soundItem.className = "sound-item";
-      soundItem.dataset.soundId = sound.id;
-
-      soundItem.innerHTML = `
-        <img src="${sound.image}" alt="${sound.id}" />
-        <kbd>${sound.key}</kbd>
-      `;
-      soundGridContainer.appendChild(soundItem);
+    soundPacks[activePackId]?.sounds.forEach((sound) => {
+      soundGridContainer.appendChild(createSoundItem(sound));
     });
   };
 
   const playSound = (soundData) => {
     if (!soundData) return;
 
-    if (currentlyPlaying) {
-      currentlyPlaying.pause();
+    // Tenta usar a API do Electron primeiro, se não funcionar usa Audio nativo
+    if (window.electronAPI && window.electronAPI.playSound) {
+      window.electronAPI.playSound(soundData.sound);
+    } else {
+      // Fallback para Audio nativo
+      const audio = new Audio(soundData.sound);
+      audio.currentTime = 0;
+      audio.play().catch(error => {
+        console.error('Erro ao tocar som:', error);
+      });
     }
-
-    const audio = new Audio(soundData.sound);
-    audio.currentTime = 0;
-    audio.play();
-    currentlyPlaying = audio;
 
     const soundElement = document.querySelector(
       `.sound-item[data-sound-id="${soundData.id}"]`
     );
     if (soundElement) {
       document
-        .querySelectorAll(".sound-item")
+        .querySelectorAll(".sound-item.active")
         .forEach((el) => el.classList.remove("active"));
       soundElement.classList.add("active");
       setTimeout(() => soundElement.classList.remove("active"), 500);
     }
   };
 
-  tabsContainer.addEventListener("click", (event) => {
+  const handleTabClick = (event) => {
     const target = event.target.closest(".tab-button");
-    if (target) {
-      activePackId = target.dataset.packId;
-      renderTabs();
-      renderSoundGrid();
-    }
-  });
+    if (!target) return;
+    activePackId = target.dataset.packId;
+    renderTabs();
+    renderSoundGrid();
+  };
 
-  soundGridContainer.addEventListener("click", (event) => {
+  const handleSoundItemClick = (event) => {
     const target = event.target.closest(".sound-item");
-    if (target) {
-      const soundId = target.dataset.soundId;
-      const soundData = soundPacks[activePackId].sounds.find(
-        (s) => s.id === soundId
-      );
-      playSound(soundData);
-    }
-  });
-
-  document.body.addEventListener("keydown", (event) => {
-    const key = event.key.toUpperCase();
+    if (!target) return;
+    const soundId = target.dataset.soundId;
     const soundData = soundPacks[activePackId].sounds.find(
+      (s) => s.id === soundId
+    );
+    playSound(soundData);
+  };
+
+  const handleKeyPress = (event) => {
+    const key = event.key.toUpperCase();
+    const soundData = soundPacks[activePackId]?.sounds.find(
       (s) => s.key === key
     );
     playSound(soundData);
-  });
+  };
 
   const init = () => {
     renderTabs();
     renderSoundGrid();
+    tabsContainer.addEventListener("click", handleTabClick);
+    soundGridContainer.addEventListener("click", handleSoundItemClick);
+    document.body.addEventListener("keydown", handleKeyPress);
   };
 
   init();

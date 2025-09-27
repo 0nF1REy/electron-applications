@@ -28,5 +28,8 @@
   "devDependencies": {
     "electron": "^33.2.1",
     "electron-packager": "^17.1.2"
+  },
+  "dependencies": {
+    "play-sound": "^1.1.6"
   }
 }
