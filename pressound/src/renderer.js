@@ -150,22 +150,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const playSound = (soundData) => {
     if (!soundData) return;
-    // Tenta usar a API do Electron primeiro, se não funcionar usa Audio nativo
-    if (window.electronAPI && window.electronAPI.playSound) {
-      window.electronAPI.playSound(soundData.sound);
-    } else {
-      // Fallback para Audio nativo - para o áudio atual primeiro
-      if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-        currentAudio = null;
-      }
 
-      currentAudio = new Audio(soundData.sound);
+    // Se um áudio já estiver tocando, pare-o e reinicie.
+    if (currentAudio) {
+      currentAudio.pause();
       currentAudio.currentTime = 0;
-      currentAudio.play().catch((error) => {});
     }
 
+    // Use a API de áudio nativa do navegador
+    currentAudio = new Audio(soundData.sound);
+    currentAudio.play().catch((error) => {
+      console.error("Erro ao tocar o som:", error);
+    });
+
+    // Lógica para o efeito visual no item clicado.
     const soundElement = document.querySelector(
       `.sound-item[data-sound-id="${soundData.id}"]`
     );
