@@ -1,0 +1,32 @@
+{
+  "name": "pressound",
+  "productName": "Pressound",
+  "version": "2.0.0",
+  "description": "Interactive soundboard with anime, gaming, and meme sounds. Press keyboard keys to play your favorite sound effects instantly. Perfect for streamers, gamers, and content creators.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "electron",
+    "desktop-app"
+  ],
+  "author": {
+    "name": "Alan Ryan da Silva Domingues",
+    "email": "alanryan619@gmail.com"
+  },
+  "homepage": "https://github.com/0nF1REy/electron",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0nF1REy/electron.git"
+  },
+  "bugs": {
+    "url": "https://github.com/0nF1REy/electron/issues"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-packager": "^17.1.2"
+  }
+}
