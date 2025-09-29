@@ -13,13 +13,13 @@
     "email": "alanryan619@gmail.com"
   },
   "license": "MIT",
-  "homepage": "https://github.com/0nF1REy/electron",
+  "homepage": "https://github.com/0nF1REy/electron-applications",
   "repository": {
     "type": "git",
-    "url": "https://github.com/0nF1REy/electron.git"
+    "url": "https://github.com/0nF1REy/electron-applications.git"
   },
   "bugs": {
-    "url": "https://github.com/0nF1REy/electron/issues"
+    "url": "https://github.com/0nF1REy/electron-applications/issues"
   },
   "scripts": {
     "start": "electron .",
